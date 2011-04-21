@@ -5,6 +5,23 @@ import grid
 import gem
 import random
 import player
+import threading
+import time
+
+class Updater(threading.Thread):
+    '''Handles brick drop speed.'''
+    def __init__(self, players):
+        threading.Thread.__init__(self)
+        self.daemon = True
+        self.running = False
+        self.players = players
+
+    def run(self):
+        self.running = True
+        while self.running:
+            for player in self.players:
+                player.grid.update()
+            time.sleep(1)
 
 class Main:
     """The Main class of the Puzzle Fighter game - this class handles
@@ -24,14 +41,14 @@ class Main:
     def run(self):
         """Main Loop of the game"""
         black = 0,0,0
+        updater = Updater(self.players)
+        updater.run()
         self.running = True
         while self.running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()
             self.screen.fill(black)
-            for player in self.players:
-                player.grid.update()
             for player in self.players:
                 player.grid.draw(self.screen)
             pygame.display.flip()

@@ -1,6 +1,6 @@
 import gem
 
-HEIGHT = 5
+HEIGHT = 10
 WIDTH = 5
 
 def build_matrix(height, width):
@@ -22,8 +22,9 @@ class Grid(object):
     def update(self):
         '''Update all the gems in the grid.'''
         print "grid updating " + str(len(self.gems)) + " gems..."
-        for gem in self.gems:
-            gem.update()
+        for row in reversed(self.grid):
+            for gem in self.gems:
+                gem.update()
         self.explode()
 
     def explode(self):
