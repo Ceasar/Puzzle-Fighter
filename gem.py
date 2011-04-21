@@ -52,6 +52,14 @@ class Gem(object):
         right = self.grid[self.y][self.x + 1]
         return right
 
+    def lower(self):
+        try:
+            below = self.get_below
+            if not below is None:
+                self.set_y(self.y - 1)
+        except(Exception e):
+            pass
+
     def set_x(x):
         self.move(self.x, self.y, x, self.y)
         self.x = x
@@ -89,7 +97,7 @@ class Gem(object):
     def update(self):
         '''Try to lower the gem.'''
         print "gem updating..."
-        self.fall()
+        self.lower()
     
     def draw(self, screen):
         """Draws the gem"""
