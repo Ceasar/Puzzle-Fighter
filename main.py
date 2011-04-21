@@ -19,8 +19,7 @@ class Main:
         self.players = [player.Player(), player.Player()]
         #Test
         for playerx in self.players:
-            playerx.grid.put(0, 0, gem.build_random_gem())
-            playerx.grid.put(1, 2, gem.build_random_gem())
+            playerx.grid.put(4, 0, gem.build_random_gem())
 
     def run(self):
         """Main Loop of the game"""

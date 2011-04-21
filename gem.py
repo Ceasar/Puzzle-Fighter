@@ -1,10 +1,10 @@
 import pygame
 import random
 
-SIZE = 20
+SIZE = 15
 
 COLORS = ['red', 'blue', 'yellow', 'green']
-RGB_VALUES = {'red' : (255, 0, 0), 'blue' : (0, 0, 255), 'yellow' : (0, 255, 255), 'green' : (0, 255, 255)}
+RGB_VALUES = {'red' : (255, 0, 0), 'blue' : (0, 0, 255), 'yellow' : (255, 255, 0), 'green' : (0, 255, 255)}
 RANDOM = random.Random()
 def build_random_gem():
     print "built a random gem"
@@ -12,7 +12,7 @@ def build_random_gem():
     color = RGB_VALUES[color]
     roll = RANDOM.random()
     if roll > 0.90:
-        crash = True
+        crash = False
     else:
         crash = False
     return Gem(color, crash)
@@ -80,11 +80,11 @@ class Gem(object):
         self.fall()
     
     def draw(self, screen):
-        """Draws the gem"""
+        """Draws the gem."""
         global SIZE
-        pygame.draw.rect(screen, self.color, (self.x * SIZE, self.y * SIZE, (self.x + 1) * SIZE, (self.y - 1) * SIZE))
-        #pygame.draw.rect(pygame.display.surface, self.color,
-        #(self.x * SIZE, self.y * SIZE, (self.x + 1) * SIZE, (self.y - 1) * SIZE))
+        topleft = (self.x * SIZE, self.y * SIZE)
+        rect = (topleft + (SIZE, SIZE))
+        pygame.draw.rect(screen, self.color, rect)
         
     def try_to_explode(self):
         '''If the gem is a crash gem, try to explode it.'''
