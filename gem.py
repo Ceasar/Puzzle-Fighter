@@ -1,7 +1,7 @@
 import pygame
 import random
 
-SIZE = 10
+SIZE = 20
 
 COLORS = ['red', 'blue', 'yellow', 'green']
 RGB_VALUES = {'red' : (255, 0, 0), 'blue' : (0, 0, 255), 'yellow' : (0, 255, 255), 'green' : (0, 255, 255)}
@@ -36,11 +36,13 @@ class Gem(object):
         below = self.grid[self.y + 1][self.x]
         return [left, right, above, below]
 
-    def set_x(x):
+    def set_x(self, x):
+        '''Set the x position of the gem.'''
         self.move(self.x, self.y, x, self.y)
         self.x = x
 
-    def set_y(y):
+    def set_y(self, y):
+        '''Set the y position of the gem.'''
         self.move(self.x, self.y, self.x, y)
         self.y = y
     
@@ -52,13 +54,12 @@ class Gem(object):
         except: #Gem is at bottom
             return
         while below is None:
-            self.y = self.y + 1
+            self.set_y(self.y - 1)
             try:
                 below = self.grid[self.y + 1][self.x]
             except: #Gem reached bottom
                 break
             #sleep(self.fall_delay) #we'll need threading for this
-        self.drop(self.x, y, self.y)
 
     def move(self, x1, y1, x2, y2):
         '''Moves a gem from one spot to another.'''
