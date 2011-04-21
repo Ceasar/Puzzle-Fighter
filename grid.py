@@ -52,3 +52,7 @@ class Grid(object):
         for gem in self.gems:
             gem.draw(screen)
 
+#DEBUG
+grid = Grid()
+g = gem.build_random_gem()
+grid.put(0, 1, g)

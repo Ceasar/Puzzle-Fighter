@@ -49,17 +49,20 @@ class Gem(object):
     def fall(self):
         '''Lower the gem until it cannot fall anymore.'''
         y = self.y
+        below = self
         try:
             below = self.grid[self.y + 1][self.x]
         except: #Gem is at bottom
+            print "hit bottom"
             return
         while below is None:
-            self.set_y(self.y - 1)
+            print self.y, self.y + 1
+            self.set_y(self.y + 1)
             try:
                 below = self.grid[self.y + 1][self.x]
             except: #Gem reached bottom
+                print "hit bottom2"
                 break
-            #sleep(self.fall_delay) #we'll need threading for this
 
     def move(self, x1, y1, x2, y2):
         '''Moves a gem from one spot to another.'''
