@@ -37,23 +37,41 @@ class Main:
         topleft = (0, 0)
         topmid = (width / 2, 0)
         self.players = [player.Player(topleft), player.Player(topmid)]
+        self.rotate = None
         #Test
         self.players[0].grid.put(3, 0, gem.build_random_gem())
         self.players[0].grid.put(3, 2, gem.build_random_gem())
         self.players[0].grid.put(4, 0, gem.build_random_gem())
         self.players[1].grid.put(5, 6, gem.build_random_gem())
 
+    def handle_event(self, event):
+        '''Handle key events.'''
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RIGHT:
+                self.rotate.rotate_clockwise()
+            elif event.key == pygame.K_LEFT:
+                self.rotate.roate_counter_clockwise()
+            if event.key == pygame.K_A:
+                self.rotate.move_right()
+            elif event.key == pygame.K_D:
+                self.rotate.move_left()
+            if event.key == pygame.K_DOWN:
+                self.drop()
+                self.rotate = build_random_rotate()
+            
     def run(self):
         """Run the main loop of the game"""
         black = 0,0,0
         updater = Updater(self.players)
         updater.start()
-        print "thread done."
         self.running = True
         while self.running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()
+                else:
+                    #self.handle_event(event)
+                    pass #debugging
             self.screen.fill(black)
             for playerx in self.players:
                 playerx.grid.draw(self.screen)
