@@ -52,14 +52,6 @@ class Gem(object):
         '''Get the gem on the right.'''
         return self.grid[self.y][self.x + 1]
 
-    def lower(self):
-        try:
-            below = self.get_below
-            if not below is None:
-                self.set_y(self.y - 1)
-        except(Exception e):
-            pass
-
     def set_x(x):
         '''Set the x position.'''
         self.move(self.x, self.y, x, self.y)
@@ -92,8 +84,6 @@ class Gem(object):
             return
         if not below is None:
             self.set_y(self.y - 1)
-        print "gem updating..."
-        self.lower()
     
     def draw(self, screen):
         """Draws the gem"""
