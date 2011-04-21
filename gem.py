@@ -1,7 +1,7 @@
 import pygame
 import random
 
-SIZE = 20
+SIZE = 10
 
 COLORS = ['red', 'blue', 'yellow', 'green']
 RGB_VALUES = {'red' : (255, 0, 0), 'blue' : (0, 0, 255), 'yellow' : (0, 255, 255), 'green' : (0, 255, 255)}
