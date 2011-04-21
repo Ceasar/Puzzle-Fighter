@@ -74,7 +74,7 @@ class Rotate:
         else: raise Exception
 
     def update(self):
-        pass
+        gem.set_y(gem
     
     def draw(self, screen):
         global SIZE

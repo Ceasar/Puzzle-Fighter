@@ -1,10 +1,10 @@
 import pygame
 import random
 
-SIZE = 15
+SIZE = 10
 
 COLORS = ['red', 'blue', 'yellow', 'green']
-RGB_VALUES = {'red' : (255, 0, 0), 'blue' : (0, 0, 255), 'yellow' : (255, 255, 0), 'green' : (0, 255, 255)}
+RGB_VALUES = {'red' : (255, 0, 0), 'blue' : (0, 0, 255), 'yellow' : (0, 255, 255), 'green' : (0, 255, 255)}
 RANDOM = random.Random()
 def build_random_gem():
     print "built a random gem"
@@ -12,7 +12,7 @@ def build_random_gem():
     color = RGB_VALUES[color]
     roll = RANDOM.random()
     if roll > 0.90:
-        crash = False
+        crash = True
     else:
         crash = False
     return Gem(color, crash)
@@ -36,33 +36,45 @@ class Gem(object):
         below = self.grid[self.y + 1][self.x]
         return [left, right, above, below]
 
-    def set_x(self, x):
-        '''Set the x position of the gem.'''
+    def get_below(self):
+        below = self.grid[self.y + 1][self.x]
+        return below
+
+    def get_above(self):
+        above = self.grid[self.y - 1][self.x]
+        return above
+
+    def get_left(self):
+        left = self.grid[self.y][self.x - 1]
+        return left
+
+    def get_right(self):
+        right = self.grid[self.y][self.x + 1]
+        return right
+
+    def set_x(x):
         self.move(self.x, self.y, x, self.y)
         self.x = x
 
-    def set_y(self, y):
-        '''Set the y position of the gem.'''
+    def set_y(y):
         self.move(self.x, self.y, self.x, y)
         self.y = y
     
     def fall(self):
         '''Lower the gem until it cannot fall anymore.'''
         y = self.y
-        below = self
         try:
             below = self.grid[self.y + 1][self.x]
         except: #Gem is at bottom
-            print "hit bottom"
             return
         while below is None:
-            print self.y, self.y + 1
-            self.set_y(self.y + 1)
+            self.y = self.y + 1
             try:
                 below = self.grid[self.y + 1][self.x]
             except: #Gem reached bottom
-                print "hit bottom2"
                 break
+            #sleep(self.fall_delay) #we'll need threading for this
+        self.drop(self.x, y, self.y)
 
     def move(self, x1, y1, x2, y2):
         '''Moves a gem from one spot to another.'''
@@ -80,11 +92,11 @@ class Gem(object):
         self.fall()
     
     def draw(self, screen):
-        """Draws the gem."""
+        """Draws the gem"""
         global SIZE
-        topleft = (self.x * SIZE, self.y * SIZE)
-        rect = (topleft + (SIZE, SIZE))
-        pygame.draw.rect(screen, self.color, rect)
+        pygame.draw.rect(screen, self.color, (self.x * SIZE, self.y * SIZE, (self.x + 1) * SIZE, (self.y - 1) * SIZE))
+        #pygame.draw.rect(pygame.display.surface, self.color,
+        #(self.x * SIZE, self.y * SIZE, (self.x + 1) * SIZE, (self.y - 1) * SIZE))
         
     def try_to_explode(self):
         '''If the gem is a crash gem, try to explode it.'''
