@@ -36,11 +36,16 @@ class Grid(object):
 
     def put(self, x, y, gem):
         '''Insert a gem.'''
-        self.grid[x][y] = gem
+        self.grid[y][x] = gem
         self.gems.append(gem)
         gem.grid = self.grid
         gem.x = x
         gem.y = y
+
+    def move(self, x1, y1, x2, y2):
+        '''Moves a gem from one spot to another.'''
+        self.grid[y2][x2] = self.grid[y1][x1]
+        self.grid[y1][x1] = None
 
     def draw(self, screen):
         '''Draws all the gems in the grid.'''

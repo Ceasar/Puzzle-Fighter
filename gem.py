@@ -30,28 +30,45 @@ class Gem(object):
 
     def get_neighbors(self):
         '''Get the adjcant gems.'''
-        left = self.grid[self.x - 1][self.y]
-        right = self.grid[self.x + 1][self.y]
-        above = self.grid[self.x][self.y - 1]
-        below = self.grid[self.x][self.y + 1]
+        left = self.grid[self.y][self.x - 1]
+        right = self.grid[self.y][self.x + 1]
+        above = self.grid[self.y - 1][self.x]
+        below = self.grid[self.y + 1][self.x]
         return [left, right, above, below]
 
+    def set_x(x):
+        self.move(self.x, self.y, x, self.y)
+        self.x = x
+
+    def set_y(y):
+        self.move(self.x, self.y, self.x, y)
+        self.y = y
     
     def fall(self):
         '''Lower the gem until it cannot fall anymore.'''
+        y = self.y
         try:
-            print "trying to fall..."
-            below = self.grid[self.x][self.y + 1]
-            while below is None:
-                print "below is empty..."
-                self.y = self.y + 1
-                print self.grid[self.x][self.y + 1]
-                below = self.grid[self.x][self.y + 1]
-                print "end reached"
-                #sleep(self.fall_delay) #we'll need threading for this
-        except:
-            #Gem hit the bottom,so below should raise an exception.
-            pass
+            below = self.grid[self.y + 1][self.x]
+        except: #Gem is at bottom
+            return
+        while below is None:
+            self.y = self.y + 1
+            try:
+                below = self.grid[self.y + 1][self.x]
+            except: #Gem reached bottom
+                break
+            #sleep(self.fall_delay) #we'll need threading for this
+        self.drop(self.x, y, self.y)
+
+    def move(self, x1, y1, x2, y2):
+        '''Moves a gem from one spot to another.'''
+        self.grid[y2][x2] = self.grid[y1][x1]
+        self.grid[y1][x1] = None
+
+    def drop(self, x, y1, y2):
+        '''Drops a gem from one spot to another.'''
+        self.grid[y2][x] = self.grid[y1][x]
+        self.grid[y1][x] = None
 
     def update(self):
         '''Try to lower the gem.'''
@@ -75,7 +92,7 @@ class Gem(object):
 
     def explode(self):
         '''Blows up the gem and nearby gems.'''
-        self.grid.grid[self.x][self.y] = None
+        self.grid.grid[self.y][self.x] = None
         self.grid.gems.remove(self)
         neighbors = self.get_neighbors()
         for neighbor in neighbors:
