@@ -1,4 +1,3 @@
-import pygame
 import gem
 
 HEIGHT = 12
@@ -18,17 +17,15 @@ class Grid(object):
 
     def __init__(self, topleft):
         self.grid = build_matrix(HEIGHT, WIDTH)
-        print self.grid
         self.gems = []
-        self.topleft = topleft
+        self.x, self.y = topleft
 
     def update(self):
         '''Update all the gems in the grid.'''
         print "grid updating " + str(len(self.gems)) + " gems..."
         for row in reversed(self.grid):
-            for gem in row:
-                if not gem is None:
-                    gem.update()
+            for gem in self.gems:
+                gem.update()
         self.explode()
 
     def explode(self):
@@ -44,7 +41,6 @@ class Grid(object):
         self.grid[y][x] = gem
         self.gems.append(gem)
         gem.grid = self.grid
-        print x, y
         gem.x = x
         gem.y = y
 
@@ -55,6 +51,10 @@ class Grid(object):
 
     def draw(self, screen):
         '''Draws all the gems in the grid.'''
-        pygame.draw.rect(screen, (255, 255, 255), self.topleft + (gem.SIZE * 6, gem.SIZE * 12), 1)
-        for gemx in self.gems:
-            gemx.draw(self.topleft, screen)
+        for gem in self.gems:
+            gem.draw(screen)
+
+#DEBUG
+grid = Grid()
+g = gem.build_random_gem()
+grid.put(0, 1, g)

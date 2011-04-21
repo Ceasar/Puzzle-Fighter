@@ -1,8 +1,6 @@
 import pygame
 import random
 
-SIZE = 10
-
 class Rotate:
     """Rotation class of an Object - this class rotates the2 block objects"""
 

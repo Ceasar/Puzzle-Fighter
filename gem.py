@@ -1,10 +1,10 @@
 import pygame
 import random
 
-SIZE = 10
+SIZE = 30
 
 COLORS = ['red', 'blue', 'yellow', 'green']
-RGB_VALUES = {'red' : (255, 0, 0), 'blue' : (0, 0, 255), 'yellow' : (0, 255, 255), 'green' : (0, 255, 255)}
+RGB_VALUES = {'red' : (255, 0, 0), 'blue' : (0, 0, 255), 'yellow' : (255, 255, 0), 'green' : (0, 255, 255)}
 RANDOM = random.Random()
 def build_random_gem():
     print "built a random gem"
@@ -52,12 +52,12 @@ class Gem(object):
         '''Get the gem on the right.'''
         return self.grid[self.y][self.x + 1]
 
-    def set_x(x):
+    def set_x(self, x):
         '''Set the x position.'''
         self.move(self.x, self.y, x, self.y)
         self.x = x
 
-    def set_y(y):
+    def set_y(self, y):
         '''Set the y position.'''
         self.move(self.x, self.y, self.x, y)
         self.y = y
@@ -78,17 +78,18 @@ class Gem(object):
 
     def lower(self):
         '''Lowers the gem one row.'''
+        print "lowering " + str(self.y)
         try:
             below = self.get_below()
         except:
             return
-        if not below is None:
-            self.set_y(self.y - 1)
+        if below is None:
+            self.set_y(self.y + 1)
     
-    def draw(self, screen):
+    def draw(self, grid_offset, screen):
         """Draws the gem"""
         global SIZE
-        topleft = (self.x * SIZE, self.y * SIZE)
+        topleft = (grid_offset[0] + self.x * SIZE,  grid_offset[1] + self.y * SIZE)
         pygame.draw.rect(screen, self.color, topleft + (SIZE, SIZE))
             
     def try_to_explode(self):
