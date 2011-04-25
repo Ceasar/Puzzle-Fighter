@@ -62,6 +62,12 @@ class Gem(object):
         self.move(self.x, self.y, self.x, y)
         self.y = y
 
+    def set_xy(self, x, y):
+        """sets position of x and y"""
+        self.move(self.x, self.y, x, y)
+        self.x = x
+        self.y = y
+
     def move(self, x1, y1, x2, y2):
         '''Moves a gem from one spot to another.'''
         self.grid[y2][x2] = self.grid[y1][x1]
@@ -76,15 +82,20 @@ class Gem(object):
         '''Try to lower the gem.'''
         self.lower()
 
+    def quickdrop(self):
+        while self.lower():
+            self.lower()
+
     def lower(self):
         '''Lowers the gem one row.'''
         print "lowering " + str(self.y)
         try:
             below = self.get_below()
         except:
-            return
+            return false
         if below is None:
             self.set_y(self.y + 1)
+            return true
     
     def draw(self, grid_offset, screen):
         """Draws the gem"""

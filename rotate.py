@@ -43,11 +43,20 @@ class Rotate:
 
     def is_dead(self):
         return False
-
     def update(self):
-        self.lever.set_y(self.lever.y + 1)
-        self.pivot.set_y(self.lever.y + 1)
-    
+        if theta == 0 or theta == math.pi:
+            try:
+                belowa = self.pivot.get_below()
+            except:
+                return
+            if belowa is None:
+                self.pivot.set_y(self.lever.y + 1)
+            
+
+    def drop(self):
+        self.pivot.quickdrop()
+        self.lever.quickdrop()
+        
     def draw(self, screen):
         self.pivot.draw(self.grid.topleft, screen)
         self.lever.draw(self.grid.topleft, screen)
