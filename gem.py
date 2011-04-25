@@ -82,9 +82,11 @@ class Gem(object):
         self.move(self.x, self.y, x, y)
         self.x = x
         self.y = y
-
+            
     def move(self, x1, y1, x2, y2):
         '''Moves a gem from one spot to another.'''
+        if x1<0 or y1 <0 or x2 <0 or y2 <0:
+            raise Exception
         self.grid[y2][x2] = self.grid[y1][x1]
         self.grid[y1][x1] = None
 
