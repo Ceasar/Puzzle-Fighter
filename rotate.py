@@ -27,14 +27,14 @@ class Rotate:
     def rotate_clockwise(self):
         '''rotate the object clockwise'''
         try:
-            a = int(self.pivot.x + math.cos(self.theta))
-            b = int(self.pivot.y + math.sin(self.theta))
+            a = self.pivot.x + int(math.cos(self.theta))
+            b = self.pivot.y + int(math.sin(self.theta))
             self.lever.set_xy(a, b)
             print a
             print b
         except:
-            c = int(self.lever.x + math.cos(self.theta + math.pi))
-            d = int(self.lever.y + math.sin(self.theta + math.pi))
+            c = self.lever.x + int(math.cos(self.theta + math.pi))
+            d = self.lever.y + int(math.sin(self.theta + math.pi))
             self.pivot.set_xy(c, d)
         self.theta = self.theta + math.pi/2 
         self.theta = self.theta % (2 * math.pi)
@@ -44,13 +44,24 @@ class Rotate:
     def rotate_anticlockwise(self):
         '''rotate the object counter clockwise'''
         try:
-            a = int(self.pivot.x - math.cos(self.theta))
-            b = int(self.pivot.y - math.sin(self.theta))
-            self.lever.set_xy(a, b)
+            a = self.pivot.x - int(math.cos(self.theta))
+            b = self.pivot.y - int(math.sin(self.theta))
+            print "a,b: " + str(a) , b
+            try:
+                self.lever.set_xy(a, b)
+            except:
+                self.lever.set_xy(a+1, b)
+                self.pivot.set_xy(a+2, b)
+
         except:
-            c = int(self.lever.x - math.cos(self.theta + math.pi))
-            d = int(self.lever.y - math.sin(self.theta + math.pi))
-            self.pivot.set_xy(a, b)
+            c = self.lever.x - int(math.cos(self.theta + math.pi))
+            d = self.lever.y - int(math.sin(self.theta + math.pi))
+            print"c,d: " + str(c) , d
+            try:
+                self.pivot.set_xy(a, b)
+            except:
+                self.pivot.set_xy(a+1,b)
+                self.lever.set_xy(a+2,b)
         self.theta = self.theta + 3*math.pi/2
         self.theta = self.theta % (2 * math.pi)
         print self.theta / math.pi
