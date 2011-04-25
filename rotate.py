@@ -148,9 +148,10 @@ class Rotate:
     def drop(self):
         '''quickly drops object into place'''
         x_diff = self.pivot.x - self.lever.x
-        if x_diff is 0:
+        y_diff = self.pivot.y - self.lever.y
+        if x_diff is 0 and y_diff is -1:
             self.lever.quickdrop()
             self.pivot.quickdrop()
         else:
-            self.lever.quickdrop()
             self.pivot.quickdrop()
+            self.lever.quickdrop()
