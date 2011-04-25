@@ -25,7 +25,7 @@ class Gem(object):
         self.x = 0 #refers to grid
         self.y = 0 #refers to grid
         self.grid = None
-        self.fall_delay = 1000
+        self.fast_fall = False
         self.counter = False
 
     def get_neighbors(self):
@@ -90,14 +90,12 @@ class Gem(object):
         self.grid[y2][x2] = self.grid[y1][x1]
         self.grid[y1][x1] = None
 
-    def drop(self, x, y1, y2):
-        '''Drops a gem from one spot to another.'''
-        self.grid[y2][x] = self.grid[y1][x]
-        self.grid[y1][x] = None
-
     def update(self):
         '''Try to lower the gem.'''
-        self.lower()
+        if self.fast_fall:
+            self.quickdrop():
+        else:
+            self.lower()
 
     def quickdrop(self):
         while self.lower():
