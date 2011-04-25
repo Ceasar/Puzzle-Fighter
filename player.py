@@ -24,7 +24,7 @@ class Player(object):
             cols.remove(self.opponent.rotate.lever.x)
         except:
             pass
-        total = (number - PENALTY) / 2
+        total = 2 * number / 3 - PENALTY
         for num in range(total):
             col = rand.choice(cols)
             new_gem = gem.build_random_regular_gem()
