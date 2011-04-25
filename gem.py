@@ -128,8 +128,7 @@ class Gem(object):
 
     def explode(self):
         '''Blows up the gem and nearby gems.'''
-        self.grid.grid[self.y][self.x] = None
-        self.grid.gems.remove(self)
+        self.grid.remove(self.y, self.x, self)
         neighbors = self.get_neighbors()
         for neighbor in neighbors:
             if not neighbor is None and neighbor.color == self.color:

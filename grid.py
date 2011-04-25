@@ -47,6 +47,10 @@ class Grid(object):
         gem.x = x
         gem.y = y
 
+    def remove(self, y, x, gem):
+        self.grid[y][x] = None
+        self.gems.remove(gem)
+
     def move(self, x1, y1, x2, y2):
         '''Moves a gem from one spot to another.'''
         self.grid[y2][x2] = self.grid[y1][x1]
