@@ -59,6 +59,8 @@ class Gem(object):
 
     def get_left(self):
         '''Get the gem on the left.'''
+        if self.x - 1 < 0:
+            raise Exception
         return self.grid[self.y][self.x - 1]
 
     def get_right(self):
