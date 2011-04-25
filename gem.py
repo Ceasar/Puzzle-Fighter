@@ -30,11 +30,24 @@ class Gem(object):
 
     def get_neighbors(self):
         '''Get the adjcant gems.'''
-        left = self.grid[self.y][self.x - 1]
-        right = self.grid[self.y][self.x + 1]
-        above = self.grid[self.y - 1][self.x]
-        below = self.grid[self.y + 1][self.x]
-        return [left, right, above, below]
+        neighbors = []
+        try:
+            neighbors.append(self.grid[self.y][self.x - 1])
+        except:
+            pass
+        try:
+            neighbors.append(self.grid[self.y][self.x + 1])
+        except:
+            pass
+        try:
+            neighbors.append(self.grid[self.y - 1][self.x])
+        except:
+            pass
+        try:
+            neighbors.append(self.grid[self.y + 1][self.x])
+        except:
+            pass
+        return neighbors
 
     def get_below(self):
         '''Get the gem below.'''
@@ -92,10 +105,10 @@ class Gem(object):
         try:
             below = self.get_below()
         except:
-            return false
+            return False
         if below is None:
             self.set_y(self.y + 1)
-            return true
+            return True
     
     def draw(self, grid_offset, screen):
         """Draws the gem"""
