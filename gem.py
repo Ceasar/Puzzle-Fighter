@@ -62,6 +62,12 @@ class Gem(object):
         self.move(self.x, self.y, self.x, y)
         self.y = y
 
+    def set_xy(self, x, y):
+        """sets position of x and y"""
+        self.move(self.x, self.y, x, y)
+        self.x = x
+        self.y = y
+
     def move(self, x1, y1, x2, y2):
         '''Moves a gem from one spot to another.'''
         self.grid[y2][x2] = self.grid[y1][x1]

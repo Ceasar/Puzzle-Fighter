@@ -1,1 +1,4 @@
-Hey there test...
+To run the game on MacOSX:
+   1. Open the Terminal
+   2. Change directory to the location of the python files (cd ../Python PF)
+   3. Type python main.py to begin!

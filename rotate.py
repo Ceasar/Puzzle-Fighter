@@ -57,42 +57,26 @@ class Rotate:
                 print self.pivot.x
                 print self.pivot.y
 
-    def old(self):
-        if gem2.get_neighbors(2)==gem1:
-            if gem2.x <= 4:
-                gem2.set_x(gem2.x - 1)
-                gem2.set_y(gem2.y + 1)
-            else:
-                gem2.set_y(gem2.y - 1)
-                gem1.set_x(gem1.x - 1)
-        elif gem2.get_neighbors(3)==gem1:
-            if gem2.x >=1:
-                gem2.set_x(gem2.x + 1)
-                gem2.set_y(gem2.y - 1)
-            else:
-                gem2.set_y(gem2,y + 1)
-                gem1.set_x(gem1.x + 1)
-        elif gem2.get_neighbors(0)==gem1:
-            if(gem2.y >=1):
-                gem2.set_x(gem2.x - 1)
-                gem2.set_y(gem2.y - 1)
-            else:
-                gem2.set_x(gem2.x - 1)
-                gem1.set_y(gem1.y + 1)
-             
-        elif(gem2.get_neighbors(1)==gem1):
-            if(gem2.y <= 4):
-                gem2.set_x(gem2.x + 1)
-                gem2.set_y(gem2.y + 1)
-            else:
-                gem2.set_y(gem2.y - 1)
-                gem1.set_x(gem1.x + 1)
-        else: raise Exception
+    def isDead(self):
+        if math.fabs(self.lever.x - self.pivot.x) + math.fabs(self.lever.y - self.pivot.y) > 1:
+            return true
+        else:
+            return false
 
     def update(self):
-        self.lever.set_y(self.lever.y + 1)
-        self.pivot.set_y(self.lever.y + 1)
-    
+        try:
+            belowa = self.lever.get_below()
+            belowb = self.pivot.get_below()
+        except:
+            return
+        if below is None:
+            self.lever.set_y(self.lever.y + 1)
+            self.pivot.set_y(self.lever.y + 1)
+
+    def drop(self):
+        self.pivot.drop()
+        self.lever.drop()
+        
     def draw(self, screen):
         global SIZE
         pygame.draw.rect(screen, gem1.color, (gem1.x * SIZE, gem1.y * SIZE, (gem1.x + 1) * SIZE, (gem1.y - 1) * SIZE))
