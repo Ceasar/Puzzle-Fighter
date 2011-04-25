@@ -2,6 +2,9 @@ import grid
 import gem
 import rotate
 import random
+import math
+
+PENALTY = 1
 
 class Player(object):
     '''A player object.'''
@@ -12,13 +15,22 @@ class Player(object):
         self.opponent = None
 
     def counter(self, number):
-        rand = random.Random
-        for num in range(number):
-            col = rand.randint(0, grid.WIDTH)
-            gem = gem.build_random_gem()
-            self.opponent.grid.insert_gem(0, col)
-            gem.counter = True
-            gem.fall()
+        '''Drops gem into the enemy grid.'''
+        global PENALTY
+        rand = random.Random()
+        cols = range(grid.WIDTH)
+        cols.remove(self.opponent.rotate.pivot.x)
+        try: #Can't remove same num from cols twice.
+            cols.remove(self.opponent.rotate.lever.x)
+        except:
+            pass
+        total = (number - PENALTY) / 2
+        for num in range(total):
+            col = rand.choice(cols)
+            new_gem = gem.build_random_regular_gem()
+            self.opponent.grid.put(0, col, new_gem)
+            new_gem.counter = 5
+            new_gem.quickdrop()
 
     def has_lost(self):
         '''Checks to see if a player has lost.'''
@@ -35,10 +47,13 @@ class Player(object):
     def update2(self):
         self.check_rotate()
         exploded = self.grid.try_explode()
+        total = 1 + exploded
         self.grid.update_dropped()
         while exploded > 0:
             exploded = self.grid.try_explode()
+            total += exploded
             self.grid.update_dropped()
+        self.counter(total)
 
     def check_rotate(self):
         '''Check to see if the rotate object is dead.'''

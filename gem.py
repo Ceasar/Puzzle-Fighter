@@ -16,6 +16,11 @@ def build_random_gem():
         crash = False
     return Gem(color, crash)
 
+def build_random_regular_gem():
+    color = RANDOM.choice(COLORS)
+    color = RGB_VALUES[color]
+    return Gem(color, False)
+
 class Gem(object):
     '''Represents a gem object.'''
     def __init__(self, color, crash):
@@ -25,7 +30,7 @@ class Gem(object):
         self.y = 0 #refers to grid
         self.grid = None
         self.active = False
-        self.counter = False
+        self.counter = 0
 
     def get_neighbors(self):
         '''Get the adjcant gems.'''
@@ -112,6 +117,8 @@ class Gem(object):
             self.lower()
         else:
             self.quickdrop()
+        if self.counter > 0:
+            self.counter = self.counter - 1
 
     def quickdrop(self):
         '''Drops the gem to the bottom.'''
@@ -132,9 +139,18 @@ class Gem(object):
         """Draws the gem"""
         global SIZE
         topleft = (grid_offset[0] + self.x * SIZE,  grid_offset[1] + self.y * SIZE)
+        color = self.color
+        if self.counter > 0:
+            color = (self.color[0] / self.counter, self.color[1] / self.counter, self.color[2] / self.counter)
         if self.crash:
             mid = (topleft[0] + SIZE / 2, topleft[1] + SIZE / 2)
-            pygame.draw.circle(screen, self.color, mid, SIZE/ 2)
+            pygame.draw.circle(screen, color, mid, SIZE/ 2)
         else:
-            pygame.draw.rect(screen, self.color, topleft + (SIZE, SIZE))
+            pygame.draw.rect(screen, color, topleft + (SIZE, SIZE))
+        if self.counter > 0:
+            botright = (topleft[0] + SIZE, topleft[1] + SIZE)
+            pygame.draw.line(screen, (0, 0, 0), topleft, botright)
+            topright = (topleft[0] + SIZE, topleft[1])
+            botleft = (topleft[0], topleft[1] + SIZE)
+            pygame.draw.line(screen, (0, 0, 0), topright, botleft)
             
