@@ -25,57 +25,47 @@ class Rotate:
         pivot.active = True
         lever.active = True
 
+    def update_theta(self, angle):
+        self.theta = self.theta + angle 
+        self.theta = self.theta % (2 * math.pi)
+        
+    
     def rotate_clockwise(self):
         '''rotate the object clockwise'''
+        x = self.pivot.x + int(math.cos(self.theta))
+        y = self.pivot.y + int(math.sin(self.theta))
         try:
-            a = self.pivot.x + int(math.cos(self.theta))
-            b = self.pivot.y + int(math.sin(self.theta))
-            self.lever.set_xy(a, b)
-            print a
-            print b
+            print x
+            if x<0:
+                raise Exception
+            future_pos = self.grid.grid[y][x]
+            if future_pos is None:
+                self.lever.set_xy(x,y)
+                self.update_theta(math.pi/2)
         except:
-            c = self.lever.x + int(math.cos(self.theta + math.pi))
-            d = self.lever.y + int(math.sin(self.theta + math.pi))
-            self.pivot.set_xy(c, d)
-        self.theta = self.theta + math.pi/2 
-        self.theta = self.theta % (2 * math.pi)
-        print self.theta / math.pi
+            x = self.lever.x + int(math.cos(self.theta + math.pi))
+            y = self.lever.y + int(math.sin(self.theta + math.pi))
+            self.pivot.set_xy(x, y)
+            self.update_theta(math.pi/2)
 
              
     def rotate_anticlockwise(self):
         '''rotate the object counter clockwise'''
+        x = self.pivot.x - int(math.cos(self.theta))
+        y = self.pivot.y - int(math.sin(self.theta))
         try:
-            a = self.pivot.x - int(math.cos(self.theta))
-            b = self.pivot.y - int(math.sin(self.theta))
-            print "a,b: " + str(a) , b
-            try:
-                self.lever.cond_set_xy(a, b)
-            except:
-                try:
-                    self.lever.cond_set_xy(a+1, b)
-                    self.pivot.cond_set_xy(a+2, b)
-                except:
-                    self.pivot.cond_set_xy(a,b+1)
-                    self.lever.cond_set_yx(a,b+2)
-
+            if x<0 or y<0:
+                raise Exception
+            future_pos = self.grid.grid[y][x]
+            if future_pos is None:
+                self.lever.cond_set_xy(x, y)
+                self.update_theta(3*math.pi/2)    
         except:
-            c = self.lever.x - int(math.cos(self.theta + math.pi))
-            d = self.lever.y - int(math.sin(self.theta + math.pi))
-            print"c,d: " + str(c) , d
-            try:
-                self.pivot.cond_set_xy(c, d)
-            except:
-                try:
-                    self.pivot.cond_set_xy(a+1,b)
-                    self.lever.cond_set_xy(a+2,b)
-                except:
-                    self.pivot.cond_set_xy(a,b+1)
-                    self.lever.cond_set_xy(a,b+2)
-        self.theta = self.theta + 3*math.pi/2
-        self.theta = self.theta % (2 * math.pi)
-        print self.theta / math.pi
-
-
+            x = self.lever.x - int(math.cos(self.theta + math.pi))
+            y = self.lever.y - int(math.sin(self.theta + math.pi))
+            self.pivot.set_xy(x,y)
+            self.update_theta(3*math.pi/2)
+            
     def is_alive(self):
         '''checks if the object is still valid'''
         gems = [self.pivot, self.lever]
