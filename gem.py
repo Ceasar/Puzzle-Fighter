@@ -11,7 +11,7 @@ def build_random_gem():
     color = RANDOM.choice(COLORS)
     color = RGB_VALUES[color]
     roll = RANDOM.random()
-    if roll > 0.90:
+    if roll > 0.80:
         crash = True
     else:
         crash = False
@@ -25,29 +25,27 @@ class Gem(object):
         self.x = 0 #refers to grid
         self.y = 0 #refers to grid
         self.grid = None
-        self.fall_delay = 1000
+        self.fast_fall = False
         self.counter = False
 
     def get_neighbors(self):
         '''Get the adjcant gems.'''
-        neighbors = []
         try:
-            neighbors.append(self.grid[self.y][self.x - 1])
+            yield self.grid[self.y][self.x - 1]
         except:
             pass
         try:
-            neighbors.append(self.grid[self.y][self.x + 1])
+            yield self.grid[self.y][self.x + 1]
         except:
             pass
         try:
-            neighbors.append(self.grid[self.y - 1][self.x])
+            yield self.grid[self.y - 1][self.x]
         except:
             pass
         try:
-            neighbors.append(self.grid[self.y + 1][self.x])
+            yield self.grid[self.y + 1][self.x]
         except:
             pass
-        return neighbors
 
     def get_below(self):
         '''Get the gem below.'''
@@ -59,7 +57,7 @@ class Gem(object):
 
     def get_left(self):
         '''Get the gem on the left.'''
-        if self.x -1 < 0:
+        if self.x - 1 < 0:
             raise Exception
         return self.grid[self.y][self.x - 1]
 
@@ -90,18 +88,16 @@ class Gem(object):
         self.grid[y2][x2] = self.grid[y1][x1]
         self.grid[y1][x1] = None
 
-    def drop(self, x, y1, y2):
-        '''Drops a gem from one spot to another.'''
-        self.grid[y2][x] = self.grid[y1][x]
-        self.grid[y1][x] = None
-
     def update(self):
         '''Try to lower the gem.'''
-        self.lower()
+        if self.fast_fall:
+            self.quickdrop()
+        else:
+            self.lower()
 
     def quickdrop(self):
         while self.lower():
-            self.lower()
+            pass
 
     def lower(self):
         '''Lowers the gem one row.'''

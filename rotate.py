@@ -21,8 +21,8 @@ class Rotate:
         self.lever = lever
         self.theta = math.pi
         self.grid = gridx
-        gridx.put(0,4,pivot)
-        gridx.put(1,4,lever)
+        gridx.put(0,3,pivot)
+        gridx.put(1,3,lever)
 
     def rotate_clockwise(self):
         '''rotate the object clockwise'''
