@@ -11,7 +11,7 @@ def build_random_gem():
     color = RANDOM.choice(COLORS)
     color = RGB_VALUES[color]
     roll = RANDOM.random()
-    if roll > 0.90:
+    if roll > 0.80:
         crash = True
     else:
         crash = False
@@ -30,24 +30,22 @@ class Gem(object):
 
     def get_neighbors(self):
         '''Get the adjcant gems.'''
-        neighbors = []
         try:
-            neighbors.append(self.grid[self.y][self.x - 1])
+            yield self.grid[self.y][self.x - 1]
         except:
             pass
         try:
-            neighbors.append(self.grid[self.y][self.x + 1])
+            yield self.grid[self.y][self.x + 1]
         except:
             pass
         try:
-            neighbors.append(self.grid[self.y - 1][self.x])
+            yield self.grid[self.y - 1][self.x]
         except:
             pass
         try:
-            neighbors.append(self.grid[self.y + 1][self.x])
+            yield self.grid[self.y + 1][self.x]
         except:
             pass
-        return neighbors
 
     def get_below(self):
         '''Get the gem below.'''
@@ -93,13 +91,13 @@ class Gem(object):
     def update(self):
         '''Try to lower the gem.'''
         if self.fast_fall:
-            self.quickdrop():
+            self.quickdrop()
         else:
             self.lower()
 
     def quickdrop(self):
         while self.lower():
-            self.lower()
+            pass
 
     def lower(self):
         '''Lowers the gem one row.'''
