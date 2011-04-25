@@ -9,8 +9,8 @@ def build_random_rotate(gridx):
     
     a = gem.build_random_gem()
     b = gem.build_random_gem()
-    gridx.put(1,4,a)
-    gridx.put(0,4,b)
+    gridx.put(0,4,a)
+    gridx.put(1,4,b)
     return Rotate(a,b)
 
 class Rotate:
@@ -22,6 +22,7 @@ class Rotate:
         self.theta = 0
 
     def rotClock(self):
+        if not self.isDead():
             try:
                 self.lever.set_xy(int(self.pivot.x + math.cos(self.theta)), int(self.pivot.y + math.sin(self.theta)))
                 self.theta = math.pi/2 + self.theta
@@ -40,6 +41,7 @@ class Rotate:
                 print self.pivot.y
              
     def rotCounterClock(self):
+        if not self.isDead():
             try:
                 self.lever.set_xy(int(self.pivot.x - math.cos(self.theta)), int(self.pivot.y - math.sin(self.theta)))
                 self.theta = self.theta - math.pi/2
@@ -64,20 +66,20 @@ class Rotate:
             return false
 
     def update(self):
-        try:
-            belowa = self.lever.get_below()
-            belowb = self.pivot.get_below()
-        except:
-            return
-        if below is None:
-            self.lever.set_y(self.lever.y + 1)
-            self.pivot.set_y(self.lever.y + 1)
+        if theta == 0 or theta == math.pi:
+            try:
+                belowa = self.pivot.get_below()
+            except:
+                return
+            if belowa is None:
+                self.pivot.set_y(self.lever.y + 1)
+            
 
     def drop(self):
-        self.pivot.drop()
-        self.lever.drop()
+        self.pivot.quickdrop()
+        self.lever.quickdrop()
         
     def draw(self, screen):
         global SIZE
-        pygame.draw.rect(screen, gem1.color, (gem1.x * SIZE, gem1.y * SIZE, (gem1.x + 1) * SIZE, (gem1.y - 1) * SIZE))
-        pygame.draw.rect(screen, gem2.color, (gem2.x * SIZE, gem2.y * SIZE, (gem2.x + 1) * SIZE, (gem2.y - 1) * SIZE))
+        self.pivot.draw
+        self.lever.draw

@@ -82,15 +82,20 @@ class Gem(object):
         '''Try to lower the gem.'''
         self.lower()
 
+    def quickdrop(self):
+        while self.lower():
+            self.lower()
+
     def lower(self):
         '''Lowers the gem one row.'''
         print "lowering " + str(self.y)
         try:
             below = self.get_below()
         except:
-            return
+            return false
         if below is None:
             self.set_y(self.y + 1)
+            return true
     
     def draw(self, grid_offset, screen):
         """Draws the gem"""
