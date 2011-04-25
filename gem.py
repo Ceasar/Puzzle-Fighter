@@ -12,7 +12,7 @@ def build_random_gem():
     color = RGB_VALUES[color]
     roll = RANDOM.random()
     if roll > 0.90:
-        crash = False
+        crash = True
     else:
         crash = False
     return Gem(color, crash)
@@ -90,15 +90,17 @@ class Gem(object):
         """Draws the gem"""
         global SIZE
         topleft = (grid_offset[0] + self.x * SIZE,  grid_offset[1] + self.y * SIZE)
-        pygame.draw.rect(screen, self.color, topleft + (SIZE, SIZE))
+        if self.crash:
+            mid = (topleft[0] + SIZE / 2, topleft[1] + SIZE / 2)
+            pygame.draw.circle(screen, self.color, mid, SIZE/ 2)
+        else:
+            pygame.draw.rect(screen, self.color, topleft + (SIZE, SIZE))
             
     def try_to_explode(self):
         '''If the gem is a crash gem, try to explode it.'''
-        if self.crash:
-            for neighbor in self.get_neighbors():
-                if neighbor.color == self.color:
-                    self.explode()
-                    return True
+        for neighbor in self.get_neighbors():
+            if not neighbor is None and neighbor.color == self.color:
+                return self.explode()
 
     def explode(self):
         '''Blows up the gem and nearby gems.'''

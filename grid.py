@@ -36,7 +36,7 @@ class Grid(object):
         for gem in self.gems:
             if gem.crash:
                 exploded = gem.try_to_explode()
-                if exploded:
+                if exploded > 0:
                     self.update()
 
     def put(self, x, y, gem):
