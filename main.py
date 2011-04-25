@@ -38,11 +38,6 @@ class Main:
         self.players = [player.Player(topleft), player.AI(topmid)]
         self.players[0].opponent = self.players[1]
         self.players[1].opponent = self.players[0]
-        #Test
-        #self.players[0].grid.put(3, 0, gem.build_random_gem())
-        #self.players[0].grid.put(3, 2, gem.build_random_gem())
-        #self.players[0].grid.put(4, 0, gem.build_random_gem())
-        #self.players[1].grid.put(5, 6, gem.build_random_gem())
 
     def handle_event(self, event):
         '''Handle key events.'''
@@ -60,11 +55,6 @@ class Main:
                 playerx.rotate.move_left()
             if event.key == pygame.K_DOWN:
                 playerx.rotate.drop()
-                playerx.update2()
-
-    def game_over(self):
-        '''Ends the game.'''
-        pass
             
     def run(self):
         """Run the main loop of the game"""
@@ -78,8 +68,6 @@ class Main:
             self.screen.fill(black)
             for playerx in self.players:
                 playerx.draw(self.screen)
-                if playerx.has_lost():
-                    self.game_over()
             pygame.display.flip()
 
 if __name__ == "__main__":
