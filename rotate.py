@@ -31,15 +31,12 @@ class Rotate:
             a = self.pivot.x + int(math.cos(self.theta))
             b = self.pivot.y + int(math.sin(self.theta))
             self.lever.set_xy(a, b)
-            print a
-            print b
         except:
             c = self.lever.x + int(math.cos(self.theta + math.pi))
             d = self.lever.y + int(math.sin(self.theta + math.pi))
             self.pivot.set_xy(c, d)
         self.theta = self.theta + math.pi/2 
         self.theta = self.theta % (2 * math.pi)
-        print self.theta / math.pi
 
              
     def rotate_anticlockwise(self):
@@ -47,7 +44,6 @@ class Rotate:
         try:
             a = self.pivot.x - int(math.cos(self.theta))
             b = self.pivot.y - int(math.sin(self.theta))
-            print "a,b: " + str(a) , b
             try:
                 self.lever.cond_set_xy(a, b)
             except:
@@ -61,7 +57,6 @@ class Rotate:
         except:
             c = self.lever.x - int(math.cos(self.theta + math.pi))
             d = self.lever.y - int(math.sin(self.theta + math.pi))
-            print"c,d: " + str(c) , d
             try:
                 self.pivot.cond_set_xy(c, d)
             except:
@@ -73,7 +68,6 @@ class Rotate:
                     self.lever.cond_set_xy(a,b+2)
         self.theta = self.theta + 3*math.pi/2
         self.theta = self.theta % (2 * math.pi)
-        print self.theta / math.pi
 
 
     def is_alive(self):

@@ -35,6 +35,8 @@ class Main:
         topleft = (0, 0)
         topmid = (width / 2, 0)
         self.players = [player.Player(topleft), player.Player(topmid)]
+        self.players[0].opponent = self.players[1]
+        self.players[1].opponent = self.players[0]
         #Test
         #self.players[0].grid.put(3, 0, gem.build_random_gem())
         #self.players[0].grid.put(3, 2, gem.build_random_gem())
@@ -57,8 +59,11 @@ class Main:
                 playerx.rotate.move_left()
             if event.key == pygame.K_DOWN:
                 playerx.rotate.drop()
-                playerx.check_rotate()
-                playerx.grid.try_explode()
+                playerx.update2()
+
+    def game_over(self):
+        '''Ends the game.'''
+        pass
             
     def run(self):
         """Run the main loop of the game"""
@@ -72,16 +77,9 @@ class Main:
             self.screen.fill(black)
             for playerx in self.players:
                 playerx.draw(self.screen)
+                if playerx.has_lost():
+                    self.game_over()
             pygame.display.flip()
-
-    def counter(self, player, number):
-        rand = random.Random
-        for num in range(number):
-            col = rand.randint(0, grid.WIDTH)
-            gem = gem.build_random_gem()
-            player.grid.insert_gem(0, col)
-            gem.counter = True
-            gem.fall()
 
 if __name__ == "__main__":
     MainWindow = Main()

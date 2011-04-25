@@ -1,7 +1,7 @@
 import pygame
 import gem
 
-HEIGHT = 12
+HEIGHT = 14
 WIDTH = 6
 
 def build_matrix(height, width):
@@ -18,18 +18,15 @@ class Grid(object):
 
     def __init__(self, topleft):
         self.grid = build_matrix(HEIGHT, WIDTH)
-        print self.grid
         self.gems = []
         self.topleft = topleft
 
     def update(self):
         '''Update all the gems in the grid.'''
-        print "grid updating " + str(len(self.gems)) + " gems..."
         for row in reversed(self.grid):
             for gem in row:
                 if not gem is None:
                     gem.update()
-        self.try_explode()
 
     def update_dropped(self):
         '''Update the dropped gems in the grid.'''
@@ -37,7 +34,6 @@ class Grid(object):
             for gem in row:
                 if not gem is None and not gem.active:
                     gem.update()
-        self.try_explode()
 
     def try_explode(self):
         '''Try to blow up the crash gem.'''
@@ -45,14 +41,17 @@ class Grid(object):
             if gem.crash and not gem.active:
                 exploded = self.try_to_explode(gem)
                 if exploded > 0:
-                    self.update_dropped()
+                    return exploded
+        return 0
 
     def try_to_explode(self, gem):
         '''If the gem is a crash gem, try to explode it.'''
         for neighbor in gem.get_neighbors():
             if not neighbor is None and neighbor.color == gem.color:
                 if not neighbor.active:
-                    return self.explode(gem)
+                    exploded = self.explode(gem)
+                    return exploded
+        return 0
 
     def explode(self, gem):
         '''Blows up the gem and nearby gems.'''
@@ -75,7 +74,6 @@ class Grid(object):
 
     def remove(self, gem):
         '''Removes a gem.'''
-        print gem
         self.grid[gem.y][gem.x] = None
         self.gems.remove(gem)
 
@@ -86,6 +84,10 @@ class Grid(object):
 
     def draw(self, screen):
         '''Draws all the gems in the grid.'''
-        pygame.draw.rect(screen, (255, 255, 255), self.topleft + (gem.SIZE * 6, gem.SIZE * 12), 1)
+        botright = (gem.SIZE * WIDTH, gem.SIZE * HEIGHT)
+        pygame.draw.rect(screen, (255, 255, 255), self.topleft + botright, 1)
+        left_lose = (self.topleft[0], gem.SIZE * 2)
+        right_lose = (self.topleft[0] + gem.SIZE * WIDTH, gem.SIZE * 2)
+        pygame.draw.line(screen, (255, 255, 255), left_lose, right_lose)
         for gemx in self.gems:
             gemx.draw(self.topleft, screen)

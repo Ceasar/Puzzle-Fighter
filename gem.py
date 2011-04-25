@@ -7,7 +7,6 @@ COLORS = ['red', 'blue', 'yellow', 'green']
 RGB_VALUES = {'red' : (255, 0, 0), 'blue' : (0, 0, 255), 'yellow' : (255, 255, 0), 'green' : (0, 255, 0)}
 RANDOM = random.Random()
 def build_random_gem():
-    print "built a random gem"
     color = RANDOM.choice(COLORS)
     color = RGB_VALUES[color]
     roll = RANDOM.random()
@@ -31,21 +30,29 @@ class Gem(object):
     def get_neighbors(self):
         '''Get the adjcant gems.'''
         try:
-            yield self.grid[self.y][self.x - 1]
+            above = self.get_above()
         except:
-            pass
+            above = -1
+        if above != -1:
+            yield above
         try:
-            yield self.grid[self.y][self.x + 1]
+            below = self.get_below()
         except:
-            pass
+            below = -1
+        if below != -1:
+            yield below
         try:
-            yield self.grid[self.y - 1][self.x]
+            right = self.get_right()
         except:
-            pass
+            right = -1
+        if right != -1:
+            yield right
         try:
-            yield self.grid[self.y + 1][self.x]
+            left = self.get_left()
         except:
-            pass
+            left = -1
+        if left != -1:
+            yield left
 
     def get_below(self):
         '''Get the gem below.'''
@@ -53,11 +60,14 @@ class Gem(object):
 
     def get_above(self):
         '''Get the gem above.'''
+        if self.y - 1 < 0:
+            raise Exception
         return self.grid[self.y - 1][self.x]
 
     def get_left(self):
         '''Get the gem on the left.'''
         if self.x - 1 < 0:
+            print "error"
             raise Exception
         return self.grid[self.y][self.x - 1]
 
@@ -127,3 +137,4 @@ class Gem(object):
             pygame.draw.circle(screen, self.color, mid, SIZE/ 2)
         else:
             pygame.draw.rect(screen, self.color, topleft + (SIZE, SIZE))
+            
