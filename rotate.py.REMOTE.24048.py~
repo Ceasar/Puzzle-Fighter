@@ -45,26 +45,9 @@ class Rotate:
         return math.fabs(self.lever.x - self.pivot.x) + math.fabs(self.lever.y - self.pivot.x) > 1
 
     def update(self):
-<<<<<<< HEAD
-        try:
-            belowa = self.pivot.get_below()
-            belowb = self.lever.get_below()
-        except:
-            return
-        if belowa is None:
-            self.pivot.set_y(self.lever.y + 1)
-        if belowb is None:
-            self.lever.set_y(self.pivot.y + 1)
-
-    def drop(self):
-        self.pivot.quickdrop()
-        self.lever.quickdrop()
-        
-=======
         self.lever.set_y(self.lever.y + 1)
         self.pivot.set_y(self.lever.y + 1)
     
->>>>>>> c0ff68b9bcbac9c99d0fdbce1aa5da9f757deee1
     def draw(self, screen):
         self.pivot.draw(self.grid.topleft, screen)
         self.lever.draw(self.grid.topleft, screen)

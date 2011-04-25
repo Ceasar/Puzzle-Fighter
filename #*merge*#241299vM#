@@ -32,20 +32,28 @@ class Rotate:
             if self.theta == math.pi*2: self.theta = 0
              
     def rotate_anticlockwise(self):
-        try:
-            self.lever.set_xy(int(self.pivot.x - math.cos(self.theta)), int(self.pivot.y - math.sin(self.theta)))
-            self.theta = self.theta - math.pi/2
-            if self.theta == -math.pi*2: self.theta = 0
-        except:
-            self.pivot.set_xy(int(self.lever.x - math.cos(self.theta + math.pi)), int(self.lever.y - math.sin(self.theta + math.pi)))
-            self.theta = math.pi/2 - self.theta
-            if self.theta == math.pi*2: self.theta = 0
+        if not self.isDead():
+            try:
+                self.lever.set_xy(int(self.pivot.x - math.cos(self.theta)), int(self.pivot.y - math.sin(self.theta)))
+                self.theta = self.theta - math.pi/2
+                if self.theta == -math.pi*2: self.theta = 0
+                print self.lever.x
+                print self.lever.y
+                print self.pivot.x
+                print self.pivot.y
+            except:
+                self.pivot.set_xy(int(self.lever.x - math.cos(self.theta + math.pi)), int(self.lever.y - math.sin(self.theta + math.pi)))
+                self.theta = math.pi/2 - self.theta
+                if self.theta == math.pi*2: self.theta = 0
+                print self.lever.x
+                print self.lever.y
+                print self.pivot.x
+                print self.pivot.y
 
-    def is_dead(self):
-        return math.fabs(self.lever.x - self.pivot.x) + math.fabs(self.lever.y - self.pivot.x) > 1
+    def isDead(self):
+        return  math.fabs(self.lever.x - self.pivot.x) + math.fabs(self.lever.y - self.pivot.y) > 1
 
     def update(self):
-<<<<<<< HEAD
         try:
             belowa = self.pivot.get_below()
             belowb = self.lever.get_below()
@@ -60,11 +68,6 @@ class Rotate:
         self.pivot.quickdrop()
         self.lever.quickdrop()
         
-=======
-        self.lever.set_y(self.lever.y + 1)
-        self.pivot.set_y(self.lever.y + 1)
-    
->>>>>>> c0ff68b9bcbac9c99d0fdbce1aa5da9f757deee1
     def draw(self, screen):
         self.pivot.draw(self.grid.topleft, screen)
         self.lever.draw(self.grid.topleft, screen)

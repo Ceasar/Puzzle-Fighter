@@ -39,12 +39,11 @@ class Grid(object):
                 if exploded > 0:
                     self.update()
 
-    def put(self, x, y, gem):
+    def put(self, y, x, gem):
         '''Insert a gem.'''
         self.grid[y][x] = gem
         self.gems.append(gem)
         gem.grid = self.grid
-        print x, y
         gem.x = x
         gem.y = y
 
