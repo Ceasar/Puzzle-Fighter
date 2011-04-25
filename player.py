@@ -12,9 +12,10 @@ class Player(object):
     def update(self):
         '''Update the state of the player.'''
         self.grid.update()
+        self.check_rotate()
+
+    def check_rotate(self):
         if not self.rotate.is_alive():
-            self.rotate.pivot.active = False
-            self.rotate.lever.active =  False
             self.rotate = rotate.build_random_rotate(self.grid)
 
     def draw(self, screen):
