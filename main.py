@@ -51,9 +51,9 @@ class Main:
                 playerx.rotate.rotate_clockwise()
             elif event.key == pygame.K_LEFT:
                 playerx.rotate.rotate_anticlockwise()
-            if event.key == pygame.K_a:
+            if event.key == pygame.K_d:
                 playerx.rotate.move_right()
-            elif event.key == pygame.K_d:
+            elif event.key == pygame.K_a:
                 playerx.rotate.move_left()
             if event.key == pygame.K_DOWN:
                 playerx.rotate.drop()
