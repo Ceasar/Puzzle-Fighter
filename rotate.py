@@ -66,14 +66,15 @@ class Rotate:
             return false
 
     def update(self):
-        if theta == 0 or theta == math.pi:
-            try:
-                belowa = self.pivot.get_below()
-            except:
-                return
-            if belowa is None:
-                self.pivot.set_y(self.lever.y + 1)
-            
+        try:
+            belowa = self.pivot.get_below()
+            belowb = self.lever.get_below()
+        except:
+            return
+        if belowa is None:
+            self.pivot.set_y(self.lever.y + 1)
+        if belowb is None:
+            self.lever.set_y(self.pivot.y + 1)
 
     def drop(self):
         self.pivot.quickdrop()
