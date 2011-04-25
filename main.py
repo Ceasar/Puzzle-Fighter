@@ -20,10 +20,8 @@ class Updater(threading.Thread):
         self.running = True
         while self.running:
             for playerx in self.players:
-                playerx.grid.update()
-            print "waiting 1 second..."
+                playerx.update()
             time.sleep(1)
-            print "done waiting."
 
 class Main:
     """The Main class of the Puzzle Fighter game - this class handles
@@ -37,27 +35,28 @@ class Main:
         topleft = (0, 0)
         topmid = (width / 2, 0)
         self.players = [player.Player(topleft), player.Player(topmid)]
-        self.rotate = None
         #Test
-        self.players[0].grid.put(3, 0, gem.build_random_gem())
-        self.players[0].grid.put(3, 2, gem.build_random_gem())
-        self.players[0].grid.put(4, 0, gem.build_random_gem())
-        self.players[1].grid.put(5, 6, gem.build_random_gem())
+        #self.players[0].grid.put(3, 0, gem.build_random_gem())
+        #self.players[0].grid.put(3, 2, gem.build_random_gem())
+        #self.players[0].grid.put(4, 0, gem.build_random_gem())
+        #self.players[1].grid.put(5, 6, gem.build_random_gem())
 
     def handle_event(self, event):
         '''Handle key events.'''
-        if event.type == pygame.KEYDOWN:
+        if event.type == pygame.QUIT:
+            sys.exit()
+        elif event.type == pygame.KEYDOWN: #All for player[0]
+            playerx = self.players[0]
             if event.key == pygame.K_RIGHT:
-                self.rotate.rotate_clockwise()
+                playerx.rotate.rotate_clockwise()
             elif event.key == pygame.K_LEFT:
-                self.rotate.roate_counter_clockwise()
-            if event.key == pygame.K_A:
-                self.rotate.move_right()
-            elif event.key == pygame.K_D:
-                self.rotate.move_left()
+                playerx.rotate.rotate_anticlockwise()
+            if event.key == pygame.K_a:
+                playerx.rotate.move_right()
+            elif event.key == pygame.K_d:
+                playerx.rotate.move_left()
             if event.key == pygame.K_DOWN:
-                self.drop()
-                self.rotate = build_random_rotate()
+                playerx.rotate.drop()
             
     def run(self):
         """Run the main loop of the game"""
@@ -67,14 +66,10 @@ class Main:
         self.running = True
         while self.running:
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    sys.exit()
-                else:
-                    #self.handle_event(event)
-                    pass #debugging
+                self.handle_event(event)
             self.screen.fill(black)
             for playerx in self.players:
-                playerx.grid.draw(self.screen)
+                playerx.draw(self.screen)
             pygame.display.flip()
 
     def counter(self, player, number):
