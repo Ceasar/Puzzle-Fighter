@@ -23,36 +23,40 @@ class Rotate:
         gridx.put(1,4,lever)
 
     def rotate_clockwise(self):
-        if not self.is_dead():
-            try:
-                self.lever.set_xy(int(self.pivot.x + math.cos(self.theta)), int(self.pivot.y + math.sin(self.theta)))
-                self.theta = math.pi/2 + self.theta
-                if self.theta == math.pi*2: self.theta = 0
-
-            except:
-                self.pivot.set_xy(int(self.lever.x + math.cos(self.theta + math.pi)), int(self.lever.y + math.sin(self.theta + math.pi)))
-                self.theta = self.theta + math.pi/2 
-                if self.theta == math.pi*2: self.theta = 0
+        '''rotate the object clockwise'''
+        try:
+            self.lever.set_xy(int(self.pivot.x + math.cos(self.theta)), int(self.pivot.y + math.sin(self.theta)))
+        except:
+            self.pivot.set_xy(int(self.lever.x + math.cos(self.theta + math.pi)), int(self.lever.y + math.sin(self.theta + math.pi)))
+        self.theta = self.theta + math.pi/2 
+        self.theta = self.theta % (2 * math.pi)
 
              
     def rotate_anticlockwise(self):
-        if not self.is_dead():
+        '''rotate the object counter clockwise'''
+        self.theta = math.pi/2 - self.theta
+        self.theta = self.theta % (2 * math.pi)
+        try:
+            self.lever.set_xy(int(self.pivot.x - math.cos(self.theta)), int(self.pivot.y - math.sin(self.theta)))
+        except:
+            self.pivot.set_xy(int(self.lever.x - math.cos(self.theta + math.pi)), int(self.lever.y - math.sin(self.theta + math.pi)))
+        
+
+
+    def is_alive(self):
+        '''checks if the object is still valid'''
+        gems = [self.pivot, self.lever]
+        for gem in gems:
             try:
-                self.lever.set_xy(int(self.pivot.x - math.cos(self.theta)), int(self.pivot.y - math.sin(self.theta)))
-                self.theta = self.theta - math.pi/2
-                if self.theta == -math.pi*2: self.theta = 0
-
+                below = gem.get_below()
             except:
-                self.pivot.set_xy(int(self.lever.x - math.cos(self.theta + math.pi)), int(self.lever.y - math.sin(self.theta + math.pi)))
-                self.theta = math.pi/2 - self.theta
-                if self.theta == math.pi*2: self.theta = 0
-
-
-    def is_dead(self):
-        return math.fabs(self.lever.x - self.pivot.x) + math.fabs(self.lever.y - self.pivot.y) > 1
-
+                return False
+            if not (below is None or below in gems):
+                return False
+        return True
 
     def move_right(self):
+        '''moves the object one space right'''
         try:
             righta = self.pivot.get_right()
             rightb = self.lever.get_right()
@@ -64,6 +68,7 @@ class Rotate:
             self.lever.set_y(self.pivot.x + 1)
 
     def move_left(self):
+        '''moves the object one space left'''
         try:
             lefta = self.pivot.get_left()
             leftb = self.lever.get_left()
@@ -73,21 +78,9 @@ class Rotate:
             self.pivot.set_y(self.lever.x - 1)
         if leftb is None or leftb is self.pivot:
             self.lever.set_y(self.pivot.x - 1)
-            
-    def update(self):
-        ydiff = self.pivot.y - self.lever.y
-        if ydiff > 0:
-            self.pivot.lower()
-            self.lever.lower()
-        else:
-            self.lever.lower()
-            self.pivot.lower()
 
     def drop(self):
+        '''quickly drops object into place'''
         self.pivot.quickdrop()
         self.lever.quickdrop()
-        
-    def draw(self, screen):
-        global SIZE
-        self.pivot.draw
-        self.lever.draw
+
