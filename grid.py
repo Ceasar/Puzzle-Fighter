@@ -31,13 +31,21 @@ class Grid(object):
                     gem.update()
         self.try_explode()
 
+    def update_dropped(self):
+        '''Update the dropped gems in the grid.'''
+        for row in reversed(self.grid):
+            for gem in row:
+                if not gem is None and not gem.active:
+                    gem.update()
+        self.try_explode()
+
     def try_explode(self):
         '''Try to blow up the crash gem.'''
         for gem in self.gems:
             if gem.crash and not gem.active:
                 exploded = self.try_to_explode(gem)
                 if exploded > 0:
-                    self.update()
+                    self.update_dropped()
 
     def try_to_explode(self, gem):
         '''If the gem is a crash gem, try to explode it.'''

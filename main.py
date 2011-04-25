@@ -57,6 +57,8 @@ class Main:
                 playerx.rotate.move_left()
             if event.key == pygame.K_DOWN:
                 playerx.rotate.drop()
+                playerx.check_rotate()
+                playerx.grid.try_explode()
             
     def run(self):
         """Run the main loop of the game"""

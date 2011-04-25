@@ -156,3 +156,5 @@ class Rotate:
         else:
             self.pivot.quickdrop()
             self.lever.quickdrop()
+        self.pivot.active = False
+        self.lever.active =  False
