@@ -29,15 +29,31 @@ class Grid(object):
             for gem in row:
                 if not gem is None:
                     gem.update()
-        self.explode()
+        self.try_explode()
 
-    def explode(self):
+    def try_explode(self):
         '''Try to blow up the crash gem.'''
         for gem in self.gems:
             if gem.crash:
-                exploded = gem.try_to_explode()
+                exploded = self.try_to_explode(gem)
                 if exploded > 0:
                     self.update()
+
+    def try_to_explode(self, gem):
+        '''If the gem is a crash gem, try to explode it.'''
+        for neighbor in gem.get_neighbors():
+            if not neighbor is None and neighbor.color == gem.color:
+                return self.explode(gem)
+
+    def explode(self, gem):
+        '''Blows up the gem and nearby gems.'''
+        self.remove(gem)
+        neighbors = gem.get_neighbors()
+        exploded = 0
+        for neighbor in neighbors:
+            if not neighbor is None and neighbor.color == gem.color:
+                exploded += 1 + self.explode(neighbor)
+        return exploded
 
     def put(self, y, x, gem):
         '''Insert a gem.'''
@@ -46,6 +62,12 @@ class Grid(object):
         gem.grid = self.grid
         gem.x = x
         gem.y = y
+
+    def remove(self, gem):
+        '''Removes a gem.'''
+        print gem
+        self.grid[gem.y][gem.x] = None
+        self.gems.remove(gem)
 
     def move(self, x1, y1, x2, y2):
         '''Moves a gem from one spot to another.'''
