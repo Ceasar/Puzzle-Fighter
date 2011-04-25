@@ -5,6 +5,7 @@ import random
 import math
 
 PENALTY = 1
+RANDOM = random.Random()
 
 class Player(object):
     '''A player object.'''
@@ -17,7 +18,6 @@ class Player(object):
     def counter(self, number):
         '''Drops gem into the enemy grid.'''
         global PENALTY
-        rand = random.Random()
         cols = range(grid.WIDTH)
         cols.remove(self.opponent.rotate.pivot.x)
         try: #Can't remove same num from cols twice.
@@ -26,7 +26,7 @@ class Player(object):
             pass
         total = (number - PENALTY) / 2
         for num in range(total):
-            col = rand.choice(cols)
+            col = RANDOM.choice(cols)
             new_gem = gem.build_random_regular_gem()
             self.opponent.grid.put(0, col, new_gem)
             new_gem.counter = 5
@@ -65,3 +65,17 @@ class Player(object):
     def draw(self, screen):
         '''Draw the state of the game.'''
         self.grid.draw(screen)
+
+class AI(Player):
+    def move(self):
+        roll = RANDOM.random()
+        if roll > 0.90:
+            self.rotate.drop()
+        elif roll > 0.45:
+            self.rotate.move_left()
+        else:
+            self.rotate.move_right()
+        if roll > 0.66:
+            self.rotate.rotate_clockwise()
+        elif roll > 0.33:
+            self.rotate.rotate_anticlockwise()

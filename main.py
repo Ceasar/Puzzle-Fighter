@@ -21,6 +21,7 @@ class Updater(threading.Thread):
         while self.running:
             for playerx in self.players:
                 playerx.update()
+            self.players[1].move()
             time.sleep(1)
 
 class Main:
@@ -34,7 +35,7 @@ class Main:
         self.running = False
         topleft = (0, 0)
         topmid = (width / 2, 0)
-        self.players = [player.Player(topleft), player.Player(topmid)]
+        self.players = [player.Player(topleft), player.AI(topmid)]
         self.players[0].opponent = self.players[1]
         self.players[1].opponent = self.players[0]
         #Test
