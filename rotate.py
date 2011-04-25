@@ -19,7 +19,7 @@ class Rotate:
     def __init__(self, pivot, lever,gridx):
         self.pivot = pivot 
         self.lever = lever
-        self.theta = 0
+        self.theta = math.pi
         self.grid = gridx
         gridx.put(0,4,pivot)
         gridx.put(1,4,lever)
