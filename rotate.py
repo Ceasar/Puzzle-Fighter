@@ -42,21 +42,12 @@ class Rotate:
             if self.theta == math.pi*2: self.theta = 0
 
     def is_dead(self):
-        return False
-    def update(self):
-        if theta == 0 or theta == math.pi:
-            try:
-                belowa = self.pivot.get_below()
-            except:
-                return
-            if belowa is None:
-                self.pivot.set_y(self.lever.y + 1)
-            
+        return math.fabs(self.lever.x - self.pivot.x) + math.fabs(self.lever.y - self.pivot.x) > 1
 
-    def drop(self):
-        self.pivot.quickdrop()
-        self.lever.quickdrop()
-        
+    def update(self):
+        self.lever.set_y(self.lever.y + 1)
+        self.pivot.set_y(self.lever.y + 1)
+    
     def draw(self, screen):
         self.pivot.draw(self.grid.topleft, screen)
         self.lever.draw(self.grid.topleft, screen)
