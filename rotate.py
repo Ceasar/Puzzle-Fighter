@@ -5,8 +5,7 @@ import gem
 import grid
 
 def build_random_rotate(gridx):
-    print "built a random rotation object"
-    
+    '''Builds a random rotate object.'''
     pivot = gem.build_random_gem()
     lever = gem.build_random_gem()
     while pivot.color == lever.color and (pivot.crash or lever.crash):
@@ -16,13 +15,15 @@ def build_random_rotate(gridx):
 class Rotate:
     """Rotation class of an Object - this class rotates the2 block objects"""
 
-    def __init__(self, pivot, lever,gridx):
+    def __init__(self, pivot, lever ,gridx):
         self.pivot = pivot 
         self.lever = lever
         self.theta = 0
         self.grid = gridx
         gridx.put(0,3,pivot)
         gridx.put(1,3,lever)
+        pivot.active = True
+        lever.active = True
 
     def rotate_clockwise(self):
         '''rotate the object clockwise'''

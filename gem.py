@@ -4,7 +4,7 @@ import random
 SIZE = 30
 
 COLORS = ['red', 'blue', 'yellow', 'green']
-RGB_VALUES = {'red' : (255, 0, 0), 'blue' : (0, 0, 255), 'yellow' : (255, 255, 0), 'green' : (0, 255, 255)}
+RGB_VALUES = {'red' : (255, 0, 0), 'blue' : (0, 0, 255), 'yellow' : (255, 255, 0), 'green' : (0, 255, 0)}
 RANDOM = random.Random()
 def build_random_gem():
     print "built a random gem"
@@ -25,7 +25,7 @@ class Gem(object):
         self.x = 0 #refers to grid
         self.y = 0 #refers to grid
         self.grid = None
-        self.fast_fall = False
+        self.active = False
         self.counter = False
 
     def get_neighbors(self):
@@ -90,18 +90,18 @@ class Gem(object):
 
     def update(self):
         '''Try to lower the gem.'''
-        if self.fast_fall:
-            self.quickdrop()
-        else:
+        if self.active:
             self.lower()
+        else:
+            self.quickdrop()
 
     def quickdrop(self):
+        '''Drops the gem to the bottom.'''
         while self.lower():
             pass
 
     def lower(self):
         '''Lowers the gem one row.'''
-        print "lowering " + str(self.y)
         try:
             below = self.get_below()
         except:

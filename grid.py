@@ -34,7 +34,7 @@ class Grid(object):
     def try_explode(self):
         '''Try to blow up the crash gem.'''
         for gem in self.gems:
-            if gem.crash:
+            if gem.crash and not gem.active:
                 exploded = self.try_to_explode(gem)
                 if exploded > 0:
                     self.update()
@@ -43,7 +43,8 @@ class Grid(object):
         '''If the gem is a crash gem, try to explode it.'''
         for neighbor in gem.get_neighbors():
             if not neighbor is None and neighbor.color == gem.color:
-                return self.explode(gem)
+                if not neighbor.active:
+                    return self.explode(gem)
 
     def explode(self, gem):
         '''Blows up the gem and nearby gems.'''
@@ -52,7 +53,8 @@ class Grid(object):
         exploded = 0
         for neighbor in neighbors:
             if not neighbor is None and neighbor.color == gem.color:
-                exploded += 1 + self.explode(neighbor)
+                if not neighbor.active:
+                    exploded += 1 + self.explode(neighbor)
         return exploded
 
     def put(self, y, x, gem):

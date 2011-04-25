@@ -13,8 +13,8 @@ class Player(object):
         '''Update the state of the player.'''
         self.grid.update()
         if not self.rotate.is_alive():
-            self.rotate.pivot.fast_fall = True
-            self.rotate.lever.fast_fall = True
+            self.rotate.pivot.active = False
+            self.rotate.lever.active =  False
             self.rotate = rotate.build_random_rotate(self.grid)
 
     def draw(self, screen):
