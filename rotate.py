@@ -48,28 +48,28 @@ class Rotate:
             b = self.pivot.y - int(math.sin(self.theta))
             print "a,b: " + str(a) , b
             try:
-                self.lever.set_xy(a, b)
+                self.lever.cond_set_xy(a, b)
             except:
                 try:
-                    self.lever.set_xy(a+1, b)
-                    self.pivot.set_xy(a+2, b)
+                    self.lever.cond_set_xy(a+1, b)
+                    self.pivot.cond_set_xy(a+2, b)
                 except:
-                    self.pivot.set_xy(a,b+1)
-                    self.lever.set_yx(a,b+2)
+                    self.pivot.cond_set_xy(a,b+1)
+                    self.lever.cond_set_yx(a,b+2)
 
         except:
             c = self.lever.x - int(math.cos(self.theta + math.pi))
             d = self.lever.y - int(math.sin(self.theta + math.pi))
             print"c,d: " + str(c) , d
             try:
-                self.pivot.set_xy(a, b)
+                self.pivot.cond_set_xy(c, d)
             except:
                 try:
-                    self.pivot.set_xy(a+1,b)
-                    self.lever.set_xy(a+2,b)
+                    self.pivot.cond_set_xy(a+1,b)
+                    self.lever.cond_set_xy(a+2,b)
                 except:
-                    self.pivot.set_xy(a,b+1)
-                    self.lever.set_xy(a,b+2)
+                    self.pivot.cond_set_xy(a,b+1)
+                    self.lever.cond_set_xy(a,b+2)
         self.theta = self.theta + 3*math.pi/2
         self.theta = self.theta % (2 * math.pi)
         print self.theta / math.pi
