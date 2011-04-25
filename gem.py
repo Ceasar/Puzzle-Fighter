@@ -59,8 +59,6 @@ class Gem(object):
 
     def get_left(self):
         '''Get the gem on the left.'''
-        if self.x-1 <0:
-            raise Exception
         return self.grid[self.y][self.x - 1]
 
     def get_right(self):
@@ -121,18 +119,3 @@ class Gem(object):
             pygame.draw.circle(screen, self.color, mid, SIZE/ 2)
         else:
             pygame.draw.rect(screen, self.color, topleft + (SIZE, SIZE))
-            
-    def try_to_explode(self):
-        '''If the gem is a crash gem, try to explode it.'''
-        for neighbor in self.get_neighbors():
-            if not neighbor is None and neighbor.color == self.color:
-                return self.explode()
-
-    def explode(self):
-        '''Blows up the gem and nearby gems.'''
-        self.grid.remove(self.y, self.x, self)
-        neighbors = self.get_neighbors()
-        for neighbor in neighbors:
-            if not neighbor is None and neighbor.color == self.color:
-                exploded += 1 + neighbor.explode()
-        return exploded
