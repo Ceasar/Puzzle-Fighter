@@ -11,9 +11,9 @@ class Player(object):
 
     def update(self):
         '''Update the state of the player.'''
+        self.grid.update()
         if not self.rotate.is_alive():
             self.rotate = rotate.build_random_rotate(self.grid)
-        self.grid.update()
 
     def draw(self, screen):
         '''Draw the state of the game.'''
