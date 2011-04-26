@@ -28,7 +28,7 @@ class Main:
     """The Main class of the Puzzle Fighter game - this class handles
     initialization and creation of the game"""
 
-    def __init__(self, width=640, height=960):
+    def __init__(self, width=640, height=600):
         """Initialize"""
         self.size = width, height
         self.screen = pygame.display.set_mode(self.size)
@@ -69,15 +69,6 @@ class Main:
             for playerx in self.players:
                 playerx.draw(self.screen)
             pygame.display.flip()
-
-    def counter(self, player, number):
-        rand = random.Random
-        for num in range(number):
-            col = rand.randint(0, grid.WIDTH)
-            gem = gem.build_random_gem()
-            player.grid.insert_gem(0, col)
-            gem.counter = True
-            gem.fall()
 
 if __name__ == "__main__":
     MainWindow = Main()

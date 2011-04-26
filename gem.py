@@ -1,5 +1,6 @@
 import pygame
 import random
+import time
 
 SIZE = 30
 
@@ -72,7 +73,6 @@ class Gem(object):
     def get_left(self):
         '''Get the gem on the left.'''
         if self.x - 1 < 0:
-            print "error"
             raise Exception
         return self.grid[self.y][self.x - 1]
 
@@ -108,6 +108,10 @@ class Gem(object):
         '''Moves a gem from one spot to another.'''
         if x1<0 or y1 <0 or x2 <0 or y2 <0:
             raise Exception
+        if x1 == x2 and y1 == y2:
+            raise Exception
+        if not self.grid[y2][x2] == None:
+            raise Exception
         self.grid[y2][x2] = self.grid[y1][x1]
         self.grid[y1][x1] = None
 
@@ -131,6 +135,10 @@ class Gem(object):
             below = self.get_below()
         except:
             return False
+        #time.sleep(0.1)
+        #for row in self.grid:
+        #    print row
+        #print "- - -"
         if below is None:
             self.set_y(self.y + 1)
             return True

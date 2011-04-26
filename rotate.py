@@ -15,7 +15,7 @@ def build_random_rotate(gridx):
 class Rotate:
     """Rotation class of an Object - this class rotates the2 block objects"""
 
-    def __init__(self, pivot, lever ,gridx):
+    def __init__(self, pivot, lever, gridx):
         self.pivot = pivot 
         self.lever = lever
         self.theta = math.pi
@@ -35,7 +35,7 @@ class Rotate:
         x = self.pivot.x + int(math.cos(self.theta))
         y = self.pivot.y + int(math.sin(self.theta))
         try:
-            if x<0:
+            if x<0 or y<0:
                 raise Exception
             future_pos = self.grid.grid[y][x]
             if future_pos is None:
@@ -46,7 +46,6 @@ class Rotate:
             y = self.lever.y + int(math.sin(self.theta + math.pi))
             self.pivot.set_xy(x, y)
             self.update_theta(math.pi/2)
-
     def rotate_anticlockwise(self):
         '''rotate the object counter clockwise'''
         x = self.pivot.x - int(math.cos(self.theta))
@@ -128,34 +127,52 @@ class Rotate:
         if x_diff == -1:
             try:
                 left = self.pivot.get_left()
-                print left
             except:
                 return
             if left is None:
                 self.pivot.set_x(self.pivot.x - 1)
                 self.lever.set_x(self.lever.x - 1)
 
-    def move_to_x(self, x):
+    def move_to_xy(self, x, y):
         x_diff = self.pivot.x - self.lever.x
+        y_diff = self.pivot.y - self.lever.y
         if x_diff == 1:
             try:
                 self.lever.set_x(x-1)
                 self.pivot.set_x(x)
             except:
-                return
-        if x_diff == 0:
+                pass
+        elif x_diff == 0:
             try:
                 self.pivot.set_x(x)
                 self.lever.set_x(x)
             except:
-                return
-        if x_diff == -1:
+                pass
+        elif x_diff == -1:
             try:
                 self.lever.set_x(x+1)
                 self.pivot.set_x(x)
             except:
-                return
-            
+                pass
+        if y_diff == 1:
+            try:
+                self.lever.set_y(y-1)
+                self.pivot.set_y(y)
+            except:
+                pass
+        elif y_diff == 0:
+            try:
+                self.pivot.set_y(y)
+                self.lever.set_y(y)
+            except:
+                pass
+        elif y_diff == -1:
+            try:
+                self.lever.set_y(y+1)
+                self.pivot.set_y(y)
+            except:
+                pass
+                
     def drop(self):
         '''quickly drops object into place'''
         x_diff = self.pivot.x - self.lever.x
