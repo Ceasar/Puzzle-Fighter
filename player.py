@@ -123,11 +123,19 @@ class AI(Player):
         for gem in self.rotate.pivot.get_neighbors():
             if not gem is None:
                 if gem.color == self.rotate.pivot.color:
-                    score = score +50
+                    if gem.crash:
+                        score = score + 20
+                    score = score + 6
+                else:
+                    score = score - 3
         for gem in self.rotate.lever.get_neighbors():
             if not gem is None:
                 if gem.color == self.rotate.lever.color:
-                    score = score + 50
+                    if gem.crash:
+                        score = score + 20
+                    score = score + 6
+                else:
+                    score = score - 3
         score = score + self.rotate.pivot.y + self.rotate.lever.y
         return score
         

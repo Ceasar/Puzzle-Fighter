@@ -100,9 +100,12 @@ class Gem(object):
 
     def set_xy(self, x, y):
         """sets position of x and y"""
-        self.move(self.x, self.y, x, y)
-        self.x = x
-        self.y = y
+        try:
+            self.move(self.x, self.y, x, y)
+            self.x = x
+            self.y = y
+        except:
+            pass
             
     def move(self, x1, y1, x2, y2):
         '''Moves a gem from one spot to another.'''
@@ -135,12 +138,11 @@ class Gem(object):
             below = self.get_below()
         except:
             return False
-        #time.sleep(0.1)
-        #for row in self.grid:
-        #    print row
-        #print "- - -"
         if below is None:
-            self.set_y(self.y + 1)
+            try:
+                self.set_y(self.y + 1)
+            except:
+                return False
             return True
     
     def draw(self, grid_offset, screen):

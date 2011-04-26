@@ -21,8 +21,21 @@ class Updater(threading.Thread):
         while self.running:
             for playerx in self.players:
                 playerx.update()
-            self.players[1].move()
             time.sleep(1)
+
+class AI (threading.Thread):
+    '''Handles brick drop speed.'''
+    def __init__(self, players):
+        threading.Thread.__init__(self)
+        self.daemon = True
+        self.running = False
+        self.players = players
+
+    def run(self):
+        self.running = True
+        while self.running:
+            self.players[1].move()
+            time.sleep(1.75)
 
 class Main:
     """The Main class of the Puzzle Fighter game - this class handles
@@ -61,6 +74,8 @@ class Main:
         black = 0,0,0
         updater = Updater(self.players)
         updater.start()
+        ai = AI(self.players)
+        ai.start()
         self.running = True
         while self.running:
             for event in pygame.event.get():
