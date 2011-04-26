@@ -70,6 +70,15 @@ class Main:
                 playerx.draw(self.screen)
             pygame.display.flip()
 
+    def counter(self, player, number):
+        rand = random.Random
+        for num in range(number):
+            col = rand.randint(0, grid.WIDTH)
+            gem = gem.build_random_gem()
+            player.grid.insert_gem(0, col)
+            gem.counter = True
+            gem.fall()
+
 if __name__ == "__main__":
     MainWindow = Main()
     MainWindow.run()

@@ -67,7 +67,44 @@ class Player(object):
         self.grid.draw(screen)
 
 class AI(Player):
-    def move(self):
+    def compute(self):
+        best_theta = 0
+        best_x = 0
+        old_score = 0
+        score = 0
+        for i in range(0,3):
+            theta = i*math.pi/2
+            if not theta is math.pi: 
+                for x in range(0, grid.WIDTH-1):
+                    self.rotate.update_theta(theta)
+                    self.rotate.move_to_x(x)
+                    self.rotate.drop()
+                    for gem in self.rotate.pivot.get_neighbors:
+                        if gem.color is self.rotate.pivot.color:
+                            score = score +1
+                    for gem in self.rotate.lever.get_neighbors:
+                        if gem.color is self.rotate.pivot.color:
+                            score = score +1
+                    if score > old_score:
+                        best_theta = theta
+                        best_x = x
+        print best_theta
+        print best_x
+        return (best_theta, best_x) 
+                
+        
+    def move(self, theta, x):
+        while not self.rotate.theta is theta:
+            self.rotate.rotate_clockwise()
+        if x > self.rotate.pivot.x:
+            while not x is self.rotate.pivot.x:
+                self.rotate.move_right()
+        elif x < self.rotate.pivot.x:
+            while not x is self.rotate.pivot.x:
+                self.rotate.move_left()
+        self.rotate.drop()
+        
+    def move_old(self):
         roll = RANDOM.random()
         if roll > 0.90:
             self.rotate.drop()

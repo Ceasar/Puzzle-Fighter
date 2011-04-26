@@ -134,6 +134,28 @@ class Rotate:
             if left is None:
                 self.pivot.set_x(self.pivot.x - 1)
                 self.lever.set_x(self.lever.x - 1)
+
+    def move_to_x(self, x):
+        x_diff = self.pivot.x - self.lever.x
+        if x_diff == 1:
+            try:
+                self.lever.set_x(x-1)
+                self.pivot.set_x(x)
+            except:
+                return
+        if x_diff == 0:
+            try:
+                self.pivot.set_x(x)
+                self.lever.set_x(x)
+            except:
+                return
+        if x_diff == -1:
+            try:
+                self.lever.set_x(x+1)
+                self.pivot.set_x(x)
+            except:
+                return
+            
     def drop(self):
         '''quickly drops object into place'''
         x_diff = self.pivot.x - self.lever.x
