@@ -160,16 +160,3 @@ class AI(Player):
                 if self.rotate.pivot.x < 0:
                     break
         self.rotate.drop()
-        
-    def move_old(self):
-        roll = RANDOM.random()
-        if roll > 0.90:
-            self.rotate.drop()
-        elif roll > 0.45:
-            self.rotate.move_left()
-        else:
-            self.rotate.move_right()
-        if roll > 0.66:
-            self.rotate.rotate_clockwise()
-        elif roll > 0.33:
-            self.rotate.rotate_anticlockwise()

@@ -1,4 +1,31 @@
-To run the game on MacOSX:
-   1. Open the Terminal
+PuzzleFighter in Python
+By Ceasar Bautista and Jason Lucibello
+
+To RUN the game:
+   1. Open the Terminal/Commandline
    2. Change directory to the location of the python files (cd ../Python PF)
    3. Type python main.py to begin!
+
+Game Details:
+
+PuzzleFighter pits the player against an AI. Gems fall in pairs, one pair at a time. When a special "crash gem" (denoted by a circle) touches blocks of the same color, that block and all adjacent blocks of the same color are destroyed. In addition, destroying large chains of blocks will cause additional blocks to appear on the opponent's grid. The first to fill the opponents grid with blocks wins!
+
+To PLAY:
+
+Use the RIGHT and LEFT arrow keys to rotate the object clockwise/counterclockwise.
+Use the A key to move the block left and the D key to move the block right. The DOWN arrow key will cause the block to drop immediately. Play fast to stay in the game!
+
+Modules Used: pygmy, random, time, math
+
+Description of each file
+
+gem.py: Creates instances of the individual blocks that go into the game. We use gem to move/update gems in the 2D grid array and to draw the gems.
+
+rotate.py: Rotate takes 2 instances of the gem class and constructs a rotate object. This is the actual object that is used in the game. The rotate object can rotate clockwise and counterclockwise, determine whether it is still active or not, and move itself in the grid in a variety of ways. We also use rotate to monitor the theta of the rotate object to keep track of the current orientation of the rotation object.
+
+grid.py: Controls and manipulates the two grid arrays in the game. grid.py updates the grid array for all events such as movement, rotation and explosions and allows us to have a location to create gems/rotate objects.
+
+player.py: Creates instances of the players of the game. More importantly, this is the class that houses the AI for the game, as an instance of the player. Player.py controls the computation of the AI, the updating for explosions, and the control of the counter gems that are created as a result of explosions.
+
+main.py: This is the file that actually runs the game. Main instantiates the game itself, the multiple threads that we use in the game to control the AI, the updater and other actions, and handles keyboard events.
+
