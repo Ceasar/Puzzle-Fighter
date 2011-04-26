@@ -122,7 +122,7 @@ class AI(Player):
                 
 
     def score(self):
-        '''creates a score for each possible move of the AI'''s
+        '''creates a score for each possible move of the AI'''
         score = 0
         for gem in self.rotate.pivot.get_neighbors():
             if not gem is None:
