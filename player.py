@@ -46,6 +46,7 @@ class Player(object):
         self.update2()
 
     def update2(self):
+        '''updating the player for explosions'''
         self.check_rotate()
         exploded = self.grid.try_explode()
         total = 1 + exploded
@@ -69,15 +70,16 @@ class Player(object):
 
 class AI(Player):
     def compute(self):
+        '''computes best overall position for AI to move to each turn'''
         best_theta = 0
         best_x = 0
         best_score = 0
         
-        for theta in [0,math.pi/2,math.pi,3*math.pi/2]:
+        for theta in [0, math.pi / 2, math.pi, 3 * math.pi / 2]:
             if theta == 0:
                 start = 0
                 end = grid.WIDTH - 1
-            elif theta == (math.pi/2 or 3*math.pi/2):
+            elif theta == (math.pi / 2 or 3 * math.pi / 2):
                 start = 0
                 end = grid.WIDTH
             else:
@@ -93,6 +95,7 @@ class AI(Player):
                 
 
     def computation(self, theta, start, end):
+        '''computes best score for each orientation of rotate object'''
         good_score = 0
         good_theta = 0
         good_x = 0
@@ -119,6 +122,7 @@ class AI(Player):
                 
 
     def score(self):
+        '''creates a score for each possible move of the AI'''s
         score = 0
         for gem in self.rotate.pivot.get_neighbors():
             if not gem is None:
@@ -140,15 +144,11 @@ class AI(Player):
         return score
         
     def move(self):
+        '''moves the block for each move for the AI'''
         theta, x = self.compute()
         orig_theta = self.rotate.theta
         while not int(self.rotate.theta) == int(theta):
-            self.rotate.rotate_clockwise()
-            #if int(orig_theta) == int(self.rotate.theta):
-             #   self.rotate.move_to_xy(self.pivot.x, self.pivot.y)
-            time.sleep(0.1)
-        
-            
+            self.rotate.rotate_clockwise()    
         if x > self.rotate.pivot.x:
             while not x == self.rotate.pivot.x:
                 self.rotate.move_right()

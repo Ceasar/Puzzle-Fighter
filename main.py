@@ -41,13 +41,13 @@ class Main:
     """The Main class of the Puzzle Fighter game - this class handles
     initialization and creation of the game"""
 
-    def __init__(self, width=640, height=600):
+    def __init__(self, width = 640, height = 600):
         """Initialize"""
         self.size = width, height
         self.screen = pygame.display.set_mode(self.size)
         self.running = False
-        topleft = (0, 0)
-        topmid = (width / 2, 0)
+        topleft = (70, 0)
+        topmid = (width / 2 + 70, 0)
         self.players = [player.Player(topleft), player.AI(topmid)]
         self.players[0].opponent = self.players[1]
         self.players[1].opponent = self.players[0]
@@ -71,7 +71,7 @@ class Main:
             
     def run(self):
         """Run the main loop of the game"""
-        black = 0,0,0
+        black = 0, 0, 0
         updater = Updater(self.players)
         updater.start()
         ai = AI(self.players)
