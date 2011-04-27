@@ -1,5 +1,6 @@
 import pygame
 import gem
+from pygame.locals import *
 
 HEIGHT = 14
 WIDTH = 6
@@ -89,5 +90,6 @@ class Grid(object):
         left_lose = (self.topleft[0], gem.SIZE * 2)
         right_lose = (self.topleft[0] + gem.SIZE * WIDTH, gem.SIZE * 2)
         pygame.draw.line(screen, (255, 255, 255), left_lose, right_lose)
+	
         for gemx in self.gems:
             gemx.draw(self.topleft, screen)

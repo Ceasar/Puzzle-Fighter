@@ -45,13 +45,14 @@ class Main:
         """Initialize"""
         self.size = width, height
         self.screen = pygame.display.set_mode(self.size)
+        pygame.display.set_caption('PuzzleFighter!')
         self.running = False
         topleft = (70, 0)
         topmid = (width / 2 + 70, 0)
         self.players = [player.Player(topleft), player.AI(topmid)]
         self.players[0].opponent = self.players[1]
         self.players[1].opponent = self.players[0]
-
+    
     def handle_event(self, event):
         '''Handle key events.'''
         if event.type == pygame.QUIT:
