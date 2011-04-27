@@ -48,6 +48,7 @@ class Rotate:
             y = self.lever.y + int(math.sin(self.theta + math.pi))
             self.pivot.set_xy(x, y)
             self.update_theta(math.pi/2)
+
     def rotate_anticlockwise(self):
         '''rotate the object counter clockwise'''
         x = self.pivot.x - int(math.cos(self.theta))
@@ -188,3 +189,14 @@ class Rotate:
             self.lever.quickdrop()
         self.pivot.active = False
         self.lever.active =  False
+
+    def aidrop(self):
+        '''quickly drops object into place'''
+        x_diff = self.pivot.x - self.lever.x
+        y_diff = self.pivot.y - self.lever.y
+        if x_diff is 0 and y_diff is -1:
+            self.lever.quickdrop()
+            self.pivot.quickdrop()
+        else:
+            self.pivot.quickdrop()
+            self.lever.quickdrop()
