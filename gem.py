@@ -3,8 +3,6 @@ import random
 import time
 import threading
 
-GRID_LOCK = threading.Lock()
-
 SIZE = 30
 
 COLORS = ['red', 'blue', 'yellow', 'green']
@@ -65,41 +63,47 @@ class Gem(object):
 
     def get_below(self):
         '''Get the gem below.'''
-        global GRID_LOCK
-        with GRID_LOCK:
-            return self.grid[self.y + 1][self.x]
+        return self.grid[self.y + 1][self.x]
 
     def get_above(self):
         '''Get the gem above.'''
         if self.y - 1 < 0:
             raise Exception
-        global GRID_LOCK
-        with GRID_LOCK:
-            return self.grid[self.y - 1][self.x]
+        return self.grid[self.y - 1][self.x]
 
     def get_left(self):
         '''Get the gem on the left.'''
         if self.x - 1 < 0:
             raise Exception
-        global GRID_LOCK
-        with GRID_LOCK:
-            return self.grid[self.y][self.x - 1]
+        return self.grid[self.y][self.x - 1]
 
     def get_right(self):
         '''Get the gem on the right.'''
-        global GRID_LOCK
-        with GRID_LOCK:
-            return self.grid[self.y][self.x + 1]
+        return self.grid[self.y][self.x + 1]
 
     def set_x(self, x):
         '''Set the x position.'''
-        self.move(self.x, self.y, x, self.y)
-        self.x = x
+        try:
+            self.move(self.x, self.y, x, self.y)
+            self.x = x
+        except:
+            pass
 
     def set_y(self, y):
         '''Set the y position.'''
-        self.move(self.x, self.y, self.x, y)
-        self.y = y
+        try:
+            self.move(self.x, self.y, self.x, y)
+            self.y = y
+        except:
+            pass
+
+    def cond_set_xy(self, x, y):
+        if not self.grid[y][x] is None:
+            raise Exception
+        else:
+            self.move(self.x, self.y, x, y)
+            self.x = x
+            self.y = y
 
     def set_xy(self, x, y):
         """sets position of x and y"""
@@ -112,16 +116,14 @@ class Gem(object):
             
     def move(self, x1, y1, x2, y2):
         '''Moves a gem from one spot to another.'''
-        global GRID_LOCK
         if x1<0 or y1 <0 or x2 <0 or y2 <0:
             raise Exception
         if x1 == x2 and y1 == y2:
             raise Exception
         if not self.grid[y2][x2] == None:
             raise Exception
-        with GRID_LOCK:
-            self.grid[y2][x2] = self.grid[y1][x1]
-            self.grid[y1][x1] = None
+        self.grid[y2][x2] = self.grid[y1][x1]
+        self.grid[y1][x1] = None
 
     def update(self):
         '''Try to lower the gem.'''
