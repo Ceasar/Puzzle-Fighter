@@ -101,9 +101,12 @@ class Gem(object):
         if not self.grid[y][x] is None:
             raise Exception
         else:
-            self.move(self.x, self.y, x, y)
-            self.x = x
-            self.y = y
+            try:
+                self.move(self.x, self.y, x, y)
+                self.x = x
+                self.y = y
+            except:
+                pass
 
     def set_xy(self, x, y):
         """sets position of x and y"""
