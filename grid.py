@@ -72,7 +72,7 @@ class Grid(object):
         global GRID_LOCK
         with GRID_LOCK:
             self.grid[y][x] = gem
-        self.gems.append(gem)
+            self.gems.append(gem)
         gem.grid = self.grid
         gem.x = x
         gem.y = y
@@ -82,7 +82,7 @@ class Grid(object):
         global GRID_LOCK
         with GRID_LOCK:
             self.grid[gem.y][gem.x] = None
-        self.gems.remove(gem)
+            self.gems.remove(gem)
 
     def move(self, x1, y1, x2, y2):
         '''Moves a gem from one spot to another.'''
