@@ -59,9 +59,8 @@ class Grid(object):
     def explode(self, gem):
         '''Blows up the gem and nearby gems.'''
         self.remove(gem)
-        neighbors = gem.get_neighbors()
         exploded = 0
-        for neighbor in neighbors:
+        for neighbor in gem.get_neighbors():
             if not neighbor is None and neighbor.color == gem.color:
                 if not neighbor.active and not neighbor.counter > 0:
                     exploded += 1 + self.explode(neighbor)
@@ -101,3 +100,5 @@ class Grid(object):
 	
         for gemx in self.gems:
             gemx.draw(self.topleft, screen)
+
+

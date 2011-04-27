@@ -17,6 +17,11 @@ class Player(object):
         self.rotate = rotate.build_random_rotate(self.grid)
         self.opponent = None
 
+    def restart(self):
+        '''Rebuilds the player.'''
+        self.grid = grid.Grid(self.grid.topleft)
+        self.rotate = rotate.build_random_rotate(self.grid)
+
     def counter(self, number):
         '''Drops gem into the enemy grid.'''
         global PENALTY, COUNTER_PENALTY
@@ -37,7 +42,7 @@ class Player(object):
     def has_lost(self):
         '''Checks to see if a player has lost.'''
         for gem in self.grid.gems:
-            if not gem.active and gem.y < 3:
+            if not gem.active and gem.y < 2:
                 return True
         return False
 
@@ -110,7 +115,7 @@ class AI(Player):
             while not int(self.rotate.theta) == int(theta):
                 self.rotate.rotate_anticlockwise()
             self.rotate.move_to_xy(x, self.rotate.pivot.y)
-            self.rotate.drop()
+            self.rotate.aidrop()
             score = self.score()
             if score > good_score:
                 good_score = score

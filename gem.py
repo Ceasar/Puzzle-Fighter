@@ -101,14 +101,6 @@ class Gem(object):
         self.move(self.x, self.y, self.x, y)
         self.y = y
 
-    def cond_set_xy(self, x, y):
-        if not self.grid[y][x] is None:
-            raise Exception
-        else:
-            self.move(self.x, self.y, x, y)
-            self.x = x
-            self.y = y
-
     def set_xy(self, x, y):
         """sets position of x and y"""
         try:
