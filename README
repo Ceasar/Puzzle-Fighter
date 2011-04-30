@@ -2,6 +2,8 @@ PuzzleFighter in Python
 By Ceasar Bautista and Jason Lucibello
 
 To RUN the game:
+   1. Double-click main.py.
+Alternatively:
    1. Open the Terminal/Commandline
    2. Change directory to the location of the python files (cd ../Python PF)
    3. Type python main.py to begin!
@@ -15,7 +17,7 @@ To PLAY:
 Use the RIGHT and LEFT arrow keys to rotate the object clockwise/counterclockwise.
 Use the A key to move the block left and the D key to move the block right. The DOWN arrow key will cause the block to drop immediately. Play fast to stay in the game!
 
-Modules Used: pygmy, random, time, math
+Modules Used: pygame, random, time, math
 
 Description of each file
 
